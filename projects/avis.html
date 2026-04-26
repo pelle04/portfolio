@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AVIS Ossolana Member Portal · Marco Pellegrino</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* ── shared case-study styles ── */
+    .cs-hero { padding: 7rem 0 4rem; position: relative; overflow: hidden; }
+    .cs-hero__bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 70% 40%, rgba(200,16,46,0.08) 0%, transparent 70%); }
+    .cs-back { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--muted); margin-bottom: 2rem; transition: color var(--t); }
+    .cs-back:hover { color: var(--purple); }
+    .cs-label { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--purple); margin-bottom: 0.8rem; }
+    .cs-title { font-size: clamp(2rem, 6vw, 3.75rem); line-height: 1.1; margin-bottom: 1.25rem; max-width: 780px; }
+    .cs-desc  { font-size: clamp(0.95rem, 2vw, 1.06rem); color: var(--muted); line-height: 1.75; max-width: 700px; margin-bottom: 1.75rem; }
+    .cs-meta  { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2rem; }
+    .meta-chip { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; background: var(--card); border: 1px solid var(--border); color: var(--muted); }
+    .cs-section { padding: clamp(3rem, 7vw, 5rem) 0; border-top: 1px solid var(--border); }
+    .cs-h2 { font-size: clamp(1.4rem, 3vw, 2rem); margin-bottom: 1rem; }
+    .cs-lead { font-size: 0.97rem; color: var(--muted); line-height: 1.75; max-width: 800px; margin-bottom: 2rem; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 4vw, 3rem); }
+    @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+    .callout { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 1.4rem 1.5rem; }
+    .callout--red  { border-color: rgba(200,16,46,0.25); background: rgba(200,16,46,0.05); }
+    .callout--cyan { border-color: rgba(34,211,238,0.22); background: rgba(34,211,238,0.04); }
+    .callout__title { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; margin-bottom: 0.7rem; }
+    .callout--red  .callout__title { color: #e84040; }
+    .callout--cyan .callout__title { color: var(--cyan); }
+    .callout__list { display: flex; flex-direction: column; gap: 0.4rem; }
+    .callout__list li { font-size: 0.87rem; color: var(--muted); padding-left: 1rem; position: relative; }
+    .callout__list li::before { content: '→'; position: absolute; left: 0; font-size: 0.78rem; }
+    .callout--red  .callout__list li::before { color: #e84040; }
+    .callout--cyan .callout__list li::before { color: var(--cyan); }
+    .challenges { display: flex; flex-direction: column; gap: 1.25rem; }
+    .challenge { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 1.4rem 1.5rem; transition: border-color var(--t); }
+    .challenge:hover { border-color: var(--border-hover); }
+    .challenge__num { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--purple); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+    .challenge__title { font-size: 1rem; color: var(--text); margin-bottom: 0.8rem; }
+    .challenge__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 560px) { .challenge__grid { grid-template-columns: 1fr; } }
+    .challenge__side { font-size: 0.84rem; line-height: 1.65; }
+    .challenge__side-label { font-size: 0.72rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .challenge__side-label--p { color: #f87171; }
+    .challenge__side-label--s { color: #4ade80; }
+    .challenge__side p { color: var(--muted); }
+    .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.9rem; }
+    .result { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 1.25rem; text-align: center; transition: all var(--t); }
+    .result:hover { border-color: var(--border-hover); transform: translateY(-3px); box-shadow: var(--glow); }
+    .result__icon { font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .result__val  { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .result__label { font-size: 0.8rem; color: var(--muted); }
+    .cs-cta { padding: clamp(3rem,6vw,5rem) 0; text-align: center; border-top: 1px solid var(--border); }
+    .cs-cta h2 { font-size: clamp(1.4rem,3vw,2rem); margin-bottom: 0.75rem; }
+    .cs-cta p  { color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; }
+    .cs-cta__btns { display: flex; justify-content: center; gap: 0.9rem; flex-wrap: wrap; }
+
+    /* ═══════════════════════════════════════
+       ARCHITECTURE DIAGRAM
+       ═══════════════════════════════════════ */
+    .arch-diagram {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 2rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--rlg);
+      position: relative;
+      overflow: hidden;
+    }
+    .arch-diagram::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    /* Cloud badge */
+    .arch-cloud-badge {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: rgba(34,211,238,0.1);
+      border: 1px solid rgba(34,211,238,0.25);
+      border-radius: 20px;
+      padding: 0.3rem 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    /* Row layout */
+    .arch-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+    .arch-row--spread { justify-content: center; gap: 2.5rem; }
+    /* Arrow connectors */
+    .arch-arrow-v {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .arch-arrow-v__line {
+      width: 2px;
+      height: 32px;
+      background: linear-gradient(to bottom, rgba(124,109,250,0.5), rgba(34,211,238,0.5));
+    }
+    .arch-arrow-v__tip {
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 7px solid rgba(34,211,238,0.6);
+    }
+    .arch-arrow-h {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .arch-arrow-h__line {
+      height: 2px;
+      width: 28px;
+      background: linear-gradient(to right, rgba(124,109,250,0.4), rgba(34,211,238,0.4));
+    }
+    .arch-arrow-h__tip {
+      width: 0; height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 7px solid rgba(34,211,238,0.55);
+    }
+    /* Node */
+    .arch-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 1rem 1.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      min-width: 110px;
+      text-align: center;
+      transition: border-color var(--t), box-shadow var(--t), transform var(--t);
+      cursor: default;
+    }
+    .arch-node:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--glow); }
+    .arch-node__icon { font-size: 1.6rem; }
+    .arch-node__name { font-size: 0.82rem; font-weight: 600; color: var(--text); font-family: 'Space Grotesk', sans-serif; }
+    .arch-node__sub  { font-size: 0.68rem; color: var(--faint); font-family: 'JetBrains Mono', monospace; }
+    .arch-node--purple { border-color: rgba(124,109,250,0.3); background: rgba(124,109,250,0.07); }
+    .arch-node--purple .arch-node__name { color: #a99eff; }
+    .arch-node--cyan   { border-color: rgba(34,211,238,0.3); background: rgba(34,211,238,0.06); }
+    .arch-node--cyan   .arch-node__name { color: #67e8f9; }
+    .arch-node--red    { border-color: rgba(200,16,46,0.3); background: rgba(200,16,46,0.06); }
+    .arch-node--red    .arch-node__name { color: #f87171; }
+    .arch-node--amber  { border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.06); }
+    .arch-node--amber  .arch-node__name { color: #fbbf24; }
+    .arch-node--ghost  { border-style: dashed; opacity: 0.65; }
+    /* WHY tooltip */
+    .arch-why {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg3);
+      border: 1px solid var(--border-hover);
+      border-radius: var(--rsm);
+      padding: 0.5rem 0.7rem;
+      font-size: 0.68rem;
+      color: var(--text);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 10;
+    }
+    .arch-why::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--border-hover);
+    }
+    .arch-node:hover .arch-why { opacity: 1; }
+    /* Split row for two branches */
+    .arch-branches {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 3rem;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+    .arch-branch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .arch-branch__label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--faint);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    /* External services row */
+    .arch-ext-row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      position: relative;
+      z-index: 1;
+      margin-top: 0;
+    }
+    /* Divider inside diagram */
+    .arch-divider {
+      width: 80%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 1.2rem 0;
+      position: relative;
+      z-index: 1;
+    }
+    .arch-divider__label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg2);
+      padding: 0 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--faint);
+      letter-spacing: 0.1em;
+    }
+
+    /* WHY CHOICES section */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.1rem;
+      margin-top: 1.5rem;
+    }
+    .why-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.25rem;
+      transition: border-color var(--t), transform var(--t);
+    }
+    .why-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .why-card__header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+    .why-card__tech { font-family: 'Space Grotesk', sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--text); }
+    .why-card__reason { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+    .why-card__badge { font-size: 0.68rem; font-family: 'JetBrains Mono', monospace; padding: 0.18rem 0.5rem; border-radius: 4px; margin-left: auto; }
+    .why-card__badge--chose { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+    .why-card__badge--alt   { background: rgba(255,255,255,0.05); color: var(--faint); border: 1px solid var(--border); }
+
+    /* DB entities */
+    .entities { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 0.9rem; margin-top: 1.5rem; }
+    .entity { background: var(--card); border: 1px solid var(--border); border-radius: var(--rsm); overflow: hidden; transition: border-color var(--t), transform var(--t); }
+    .entity:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .entity__header { padding: 0.55rem 0.9rem; background: rgba(200,16,46,0.08); border-bottom: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 500; color: #f87171; }
+    .entity__fields { padding: 0.55rem 0.9rem; display: flex; flex-direction: column; gap: 0.2rem; }
+    .entity__field  { font-size: 0.73rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .entity__field--pk { color: var(--cyan); }
+    .entity__field--fk { color: #fbbf24; }
+
+    /* Docker block */
+    .docker-block { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 1.25rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.85; color: var(--muted); overflow-x: auto; }
+    .c-green  { color: #4ade80; }
+    .c-blue   { color: #67e8f9; }
+    .c-yellow { color: #fbbf24; }
+    .c-dim    { color: var(--faint); }
+    .c-red    { color: #f87171; }
+
+    @media (max-width: 640px) {
+      .arch-branches { flex-direction: column; align-items: center; gap: 0; }
+      .arch-node { min-width: 90px; padding: 0.75rem; }
+      .arch-node__icon { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav scrolled">
+    <div class="nav__container">
+      <a href="../index.html" class="nav__logo">MP<span class="accent">.</span></a>
+      <ul class="nav__links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#projects" class="active">Projects</a></li>
+        <li><a href="../index.html#contact" class="nav__cta">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="cs-hero">
+    <div class="cs-hero__bg"></div>
+    <div class="container" style="position:relative;z-index:1">
+      <a href="../index.html#projects" class="cs-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Portfolio
+      </a>
+      <div class="cs-label">Case Study · Freelance Cloud Project</div>
+      <h1 class="cs-title">AVIS Ossolana<br>Member Portal</h1>
+      <p class="cs-desc">A modern, cloud-deployed member management portal for an Italian blood donor association — replacing a legacy CSV workflow with a full-stack SPA + REST API, containerized and deployed on Aruba VPS.</p>
+      <div class="cs-meta">
+        <span class="meta-chip">📅 2024–2025</span>
+        <span class="meta-chip">👤 Solo Developer</span>
+        <span class="meta-chip">☁️ Cloud · Aruba VPS</span>
+        <span class="meta-chip">⚛️ React · TypeScript · .NET 8</span>
+        <span class="meta-chip">🐳 Docker + Nginx</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- 01 · Overview -->
+    <section class="cs-section">
+      <div class="section__label">01 · Overview</div>
+      <h2 class="cs-h2">Problem &amp; Solution</h2>
+      <p class="cs-lead">AVIS Ossolana ODV (Associazione Volontari Italiani Sangue, Domodossola) needed to replace a manual CSV-based workflow on a legacy server with a modern, accessible portal. The new system needed to work for non-technical staff managing 100+ blood donors, with mobile access and integrated communication tools.</p>
+      <div class="two-col">
+        <div class="callout callout--red">
+          <div class="callout__title">Problem</div>
+          <ul class="callout__list">
+            <li>Member data in CSV files on a legacy Linux server — no UI</li>
+            <li>No automated alerts for donors with upcoming donation dates</li>
+            <li>Manual WhatsApp messages sent one-by-one to 100+ members</li>
+            <li>No self-service for members to check their own donation history</li>
+            <li>No visibility into award (benemerenza) status per member</li>
+          </ul>
+        </div>
+        <div class="callout callout--cyan">
+          <div class="callout__title">Solution</div>
+          <ul class="callout__list">
+            <li>Modern SPA portal accessible from any device, including mobile</li>
+            <li>Dashboard with upcoming donation alerts (≤30 days) at a glance</li>
+            <li>Bulk WhatsApp sending with template system and guided 5-step wizard</li>
+            <li>Member self-service login: personal stats, donation history, awards</li>
+            <li>Full admin CRUD + CSV export + communication log history</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 · Architecture Diagram -->
+    <section class="cs-section">
+      <div class="section__label">02 · System Architecture</div>
+      <h2 class="cs-h2">Full-Stack Architecture &amp; Deployment</h2>
+      <p class="cs-lead">The system uses a decoupled frontend/backend architecture served through a single Nginx entry point. Everything runs containerized on a cloud VPS, with SSL handled at the Nginx layer.</p>
+
+      <div class="arch-diagram" style="margin-top:1.5rem;">
+        <div class="arch-cloud-badge">☁️ Aruba VPS — Ubuntu 22.04 LTS</div>
+
+        <!-- Users -->
+        <div class="arch-row" style="margin-bottom:0">
+          <div class="arch-node" style="position:relative">
+            <div class="arch-why">Any device, any browser — HTTPS only</div>
+            <div class="arch-node__icon">👥</div>
+            <div class="arch-node__name">Users</div>
+            <div class="arch-node__sub">Browser / Mobile</div>
+          </div>
+        </div>
+        <div class="arch-arrow-v"><div class="arch-arrow-v__line"></div><div class="arch-arrow-v__tip"></div></div>
+
+        <!-- Nginx -->
+        <div class="arch-row" style="margin-bottom:0">
+          <div class="arch-node arch-node--cyan" style="position:relative">
+            <div class="arch-why">Single entry point · SSL termination · Gzip · SPA routing</div>
+            <div class="arch-node__icon">🔀</div>
+            <div class="arch-node__name">Nginx</div>
+            <div class="arch-node__sub">Reverse Proxy · SSL</div>
+          </div>
+        </div>
+
+        <div class="arch-divider"><span class="arch-divider__label">Docker Compose Network</span></div>
+
+        <!-- Two branches: SPA and API -->
+        <div class="arch-branches">
+          <div class="arch-branch">
+            <div class="arch-branch__label">Static Assets</div>
+            <div class="arch-arrow-v"><div class="arch-arrow-v__line"></div><div class="arch-arrow-v__tip"></div></div>
+            <div class="arch-node arch-node--purple" style="position:relative">
+              <div class="arch-why">SPA: React Router handles client-side navigation without full-page reloads</div>
+              <div class="arch-node__icon">⚛️</div>
+              <div class="arch-node__name">React SPA</div>
+              <div class="arch-node__sub">TypeScript · Vite · Tailwind</div>
+            </div>
+          </div>
+
+          <div class="arch-branch">
+            <div class="arch-branch__label">/api/* Proxy</div>
+            <div class="arch-arrow-v"><div class="arch-arrow-v__line"></div><div class="arch-arrow-v__tip"></div></div>
+            <div class="arch-node arch-node--purple" style="position:relative">
+              <div class="arch-why">Minimal APIs: lightweight REST endpoints, no controller overhead for an MVP</div>
+              <div class="arch-node__icon">⚙️</div>
+              <div class="arch-node__name">.NET 8 API</div>
+              <div class="arch-node__sub">Minimal APIs · JWT Auth</div>
+            </div>
+            <div class="arch-arrow-v"><div class="arch-arrow-v__line"></div><div class="arch-arrow-v__tip"></div></div>
+            <div class="arch-node arch-node--amber" style="position:relative">
+              <div class="arch-why">PostgreSQL: open-source, GDPR-friendly, excellent EF Core support</div>
+              <div class="arch-node__icon">🗄️</div>
+              <div class="arch-node__name">PostgreSQL</div>
+              <div class="arch-node__sub">EF Core · (planned)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-divider"><span class="arch-divider__label">External Integrations</span></div>
+
+        <!-- External services -->
+        <div class="arch-ext-row">
+          <div class="arch-node arch-node--ghost" style="position:relative">
+            <div class="arch-why">Meta Cloud API for WhatsApp Business — planned integration</div>
+            <div class="arch-node__icon">💬</div>
+            <div class="arch-node__name">WhatsApp API</div>
+            <div class="arch-node__sub">Meta Cloud API</div>
+          </div>
+          <div class="arch-node arch-node--ghost" style="position:relative">
+            <div class="arch-why">Let's Encrypt for free SSL — automated renewal via certbot</div>
+            <div class="arch-node__icon">🔒</div>
+            <div class="arch-node__name">Let's Encrypt</div>
+            <div class="arch-node__sub">Auto SSL · certbot</div>
+          </div>
+        </div>
+
+      </div>
+      <p style="font-size:0.78rem;color:var(--faint);margin-top:0.75rem;text-align:center;font-family:'JetBrains Mono',monospace;">
+        Hover over each node to see the design rationale
+      </p>
+    </section>
+
+    <!-- 03 · Why These Choices -->
+    <section class="cs-section">
+      <div class="section__label">03 · Technology Decisions</div>
+      <h2 class="cs-h2">Why Each Technology Was Chosen</h2>
+      <p class="cs-lead">Every choice was made considering the client context: non-technical admin staff, mobile access needs, Italian data sovereignty (GDPR), and budget constraints of a volunteer association.</p>
+
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-card__header">
+            <div class="arch-node__icon" style="font-size:1.2rem">⚛️</div>
+            <span class="why-card__tech">React + TypeScript</span>
+            <span class="why-card__badge why-card__badge--chose">Chosen</span>
+          </div>
+          <p class="why-card__reason">The admin WhatsApp wizard has 5 sequential steps with complex state — React's component model handles this far better than server-rendered pages. TypeScript adds compile-time safety when dealing with member data structures.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__header">
+            <div class="arch-node__icon" style="font-size:1.2rem">⚡</div>
+            <span class="why-card__tech">Vite</span>
+            <span class="why-card__badge why-card__badge--chose">Chosen</span>
+          </div>
+          <p class="why-card__reason">Near-instant HMR during development and optimized production builds. Simpler configuration than webpack for a project of this size. Native ESM support aligns with the modern TypeScript setup.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__header">
+            <div class="arch-node__icon" style="font-size:1.2rem">🎨</div>
+            <span class="why-card__tech">Tailwind CSS</span>
+            <span class="why-card__badge why-card__badge--chose">Chosen</span>
+          </div>
+          <p class="why-card__reason">Rapid prototyping with consistent design tokens. The custom AVIS red (#C8102E) is easily configured as a Tailwind color. Utility-first approach avoids naming CSS classes for dozens of small UI components.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__header">
+            <div class="arch-node__icon" style="font-size:1.2rem">⚙️</div>
+            <span class="why-card__tech">.NET 8 Minimal APIs</span>
+            <span class="why-card__badge why-card__badge--chose">Chosen</span>
+          </div>
+          <p class="why-card__reason">Minimal APIs keep the backend lean — all route handlers in Program.cs, no controller boilerplate for an MVP with ~15 endpoints. Familiarity with the .NET ecosystem accelerated development. Chose over Node.js/Express for strong typing and future EF Core integration.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__header">
+            <div class="arch-node__icon" style="font-size:1.2rem">🗄️</div>
+            <span class="why-card__tech">PostgreSQL</span>
+            <span class="why-card__badge why-card__badge--alt">Planned</span>
+          </div>
+          <p class="why-card__reason">Chosen over SQL Server to avoid licensing costs for a non-profit client. Open-source, well-supported by EF Core, and excellent for GDPR-sensitive member data. Natural migration path from CSV with EF Core migrations.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__header">
+            <div class="arch-node__icon" style="font-size:1.2rem">🔀</div>
+            <span class="why-card__tech">Nginx + Docker</span>
+            <span class="why-card__badge why-card__badge--chose">Chosen</span>
+          </div>
+          <p class="why-card__reason">Single-domain deployment: Nginx serves the React build as static files and proxies /api/* to the .NET container. No CORS complexity. Docker Compose ensures identical dev/prod environments and easy server migration.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__header">
+            <div class="arch-node__icon" style="font-size:1.2rem">🇮🇹</div>
+            <span class="why-card__tech">Aruba VPS</span>
+            <span class="why-card__badge why-card__badge--chose">Chosen</span>
+          </div>
+          <p class="why-card__reason">Italian hosting provider = data residency within Italy, simplifying GDPR compliance for member personal data. Cost-effective (€5–10/month) for a volunteer association budget. Italian-language support for the client.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__header">
+            <div class="arch-node__icon" style="font-size:1.2rem">💬</div>
+            <span class="why-card__tech">Meta Cloud API</span>
+            <span class="why-card__badge why-card__badge--alt">Planned</span>
+          </div>
+          <p class="why-card__reason">Official WhatsApp Business API for bulk messaging. Chosen over Twilio for lower per-message cost at scale and direct Meta integration. The template system in the app is already built to match the Meta template variable format.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 · Features -->
+    <section class="cs-section">
+      <div class="section__label">04 · Key Features</div>
+      <h2 class="cs-h2">Application Features</h2>
+      <p class="cs-lead">Two distinct user roles with separate views and permissions. The admin manages everything; members have read-only access to their own data.</p>
+      <div class="two-col" style="margin-bottom:1.5rem">
+        <div class="callout callout--red">
+          <div class="callout__title">Admin Role</div>
+          <ul class="callout__list">
+            <li>Member CRUD with 7-type advanced filtering (name, award, WhatsApp status, upcoming date…)</li>
+            <li>Multi-select + bulk operations (CSV export, batch WhatsApp send)</li>
+            <li>WhatsApp template CRUD with <code style="color:var(--cyan)">{{variable}}</code> syntax</li>
+            <li>5-step guided sending wizard: recipients → template → preview → confirm → results</li>
+            <li>Communication log with delivery status per recipient</li>
+            <li>Dashboard: active members, total donations, upcoming alerts, missing WhatsApp count</li>
+          </ul>
+        </div>
+        <div class="callout callout--cyan">
+          <div class="callout__title">Member (Socio) Role</div>
+          <ul class="callout__list">
+            <li>Login with tessera number (donor card ID)</li>
+            <li>First-login mandatory password change wizard</li>
+            <li>Personal dashboard: donation count, blood group, upcoming date, award status</li>
+            <li>Award visualization: Bronze → Silver → Gold → Gold Superior</li>
+            <li>Settings: password change, account security info</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 · DB Schema -->
+    <section class="cs-section">
+      <div class="section__label">05 · Database Schema</div>
+      <h2 class="cs-h2">Planned Entity Design</h2>
+      <p class="cs-lead">Currently implemented with in-memory mock data for demo purposes. The database schema is designed for a direct migration from the existing CSV using EF Core migrations.</p>
+      <div class="entities">
+        <div class="entity">
+          <div class="entity__header">Soci (Members)</div>
+          <div class="entity__fields">
+            <div class="entity__field entity__field--pk">id (UUID, PK)</div>
+            <div class="entity__field entity__field--pk">tessera (unique)</div>
+            <div class="entity__field">nome, cognome</div>
+            <div class="entity__field">data_nascita, cf</div>
+            <div class="entity__field">email, telefono, whatsapp</div>
+            <div class="entity__field">gruppo_sanguigno</div>
+            <div class="entity__field">donazioni_sangue, plasma</div>
+            <div class="entity__field">ultima_donazione, prossima</div>
+            <div class="entity__field">benemerenza (enum)</div>
+            <div class="entity__field">attivo (bool), role</div>
+            <div class="entity__field">password_hash</div>
+          </div>
+        </div>
+        <div class="entity">
+          <div class="entity__header">WA Templates</div>
+          <div class="entity__fields">
+            <div class="entity__field entity__field--pk">id (UUID, PK)</div>
+            <div class="entity__field">nome</div>
+            <div class="entity__field">testo ({{vars}})</div>
+            <div class="entity__field">created_at, updated_at</div>
+          </div>
+        </div>
+        <div class="entity">
+          <div class="entity__header">Comm. Log</div>
+          <div class="entity__fields">
+            <div class="entity__field entity__field--pk">id (UUID, PK)</div>
+            <div class="entity__field entity__field--fk">destinatario_id (FK)</div>
+            <div class="entity__field entity__field--fk">template_id (FK)</div>
+            <div class="entity__field">whatsapp_number</div>
+            <div class="entity__field">testo_inviato</div>
+            <div class="entity__field">data_ora</div>
+            <div class="entity__field">esito (enum)</div>
+            <div class="entity__field entity__field--fk">operatore_id (FK)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 · Challenges -->
+    <section class="cs-section">
+      <div class="section__label">06 · Engineering Challenges</div>
+      <h2 class="cs-h2">Problems Solved</h2>
+      <div class="challenges">
+        <div class="challenge">
+          <div class="challenge__num">CHALLENGE 01</div>
+          <h3 class="challenge__title">WhatsApp Template Variable Preview in Real-Time</h3>
+          <div class="challenge__grid">
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--p">Problem</div>
+              <p>Admin staff needed to see exactly what each WhatsApp message would look like for each recipient before sending. With 100+ members and dynamic variables like <code>{{nome}}</code>, <code>{{prossima_donazione}}</code>, previewing each one individually would be unusable.</p>
+            </div>
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--s">Solution</div>
+              <p>Template variables are substituted client-side in React using string replacement with the selected member's actual data. The preview step in the wizard renders the final resolved message for each recipient before the admin confirms. No backend round-trip needed for preview.</p>
+            </div>
+          </div>
+        </div>
+        <div class="challenge">
+          <div class="challenge__num">CHALLENGE 02</div>
+          <h3 class="challenge__title">Single-Domain Deployment: SPA + API Behind One Nginx</h3>
+          <div class="challenge__grid">
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--p">Problem</div>
+              <p>Running a React SPA and a .NET API on the same domain requires careful routing. React Router handles client-side navigation (all routes should return index.html). The API needs its own path prefix. Getting SSL, gzip, and SPA fallback all working together in one Nginx config was non-trivial.</p>
+            </div>
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--s">Solution</div>
+              <p>Nginx serves the React build as static files with a <code>try_files $uri /index.html</code> fallback for SPA routing. Any request to <code>/api/*</code> is proxied to the .NET container. SSL is terminated at Nginx. Static assets have 1-year cache headers. All in a single <code>nginx.conf</code>.</p>
+            </div>
+          </div>
+        </div>
+        <div class="challenge">
+          <div class="challenge__num">CHALLENGE 03</div>
+          <h3 class="challenge__title">CSV Data Migration Planning for Legacy Member Data</h3>
+          <div class="challenge__grid">
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--p">Problem</div>
+              <p>The existing member database is a CSV file on a legacy Linux server with inconsistent formatting. Column names are in Italian, dates are in Italian format (DD/MM/YYYY), and some fields are missing for older records. Direct import would produce dirty data.</p>
+            </div>
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--s">Solution</div>
+              <p>A Python migration script (<code>genera_offerta.py</code>) was designed for the data transformation: Italian date parsing, column mapping to the PostgreSQL schema, default value injection for missing fields, and duplicate tessera detection before the EF Core seed migration runs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 · Deployment -->
+    <section class="cs-section">
+      <div class="section__label">07 · Deployment</div>
+      <h2 class="cs-h2">Production Deployment on Aruba VPS</h2>
+      <p class="cs-lead">The entire stack is containerized. Deploying to a new server is a single <code>docker compose up -d --build</code> command. SSL is handled outside the containers via certbot on the host.</p>
+      <div class="docker-block" style="margin-top:1.25rem">
+        <span class="c-green">services:</span><br>
+        &nbsp;&nbsp;<span class="c-blue">backend:</span> <span class="c-dim"># .NET 8 Minimal API</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;build: <span class="c-yellow">./backend</span> <span class="c-dim"># multi-stage: SDK → Runtime</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;expose: <span class="c-yellow">5000</span> <span class="c-dim"># internal only, not public</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;healthcheck: <span class="c-dim">curl /swagger every 30s</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;environment: ASPNETCORE_ENVIRONMENT=Production<br><br>
+        &nbsp;&nbsp;<span class="c-blue">frontend:</span> <span class="c-dim"># Node → Nginx Alpine</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;build: <span class="c-yellow">./frontend</span> <span class="c-dim"># npm ci → vite build → nginx</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;ports: <span class="c-yellow">80:80</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;depends_on: <span class="c-dim">backend</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="c-dim"># Nginx: SPA routing + /api proxy + gzip + 1yr cache</span><br><br>
+        <span class="c-dim"># After deploy on VPS:</span><br>
+        <span class="c-green">$</span> certbot --nginx -d <span class="c-yellow">portale.avisossolana.it</span><br>
+        <span class="c-dim"># SSL auto-renewal via systemd timer</span>
+      </div>
+    </section>
+
+    <!-- 08 · Status & Results -->
+    <section class="cs-section">
+      <div class="section__label">08 · Status &amp; Delivery</div>
+      <h2 class="cs-h2">Current Status &amp; Impact</h2>
+      <p class="cs-lead">MVP delivered and presented to the client. Frontend UI fully implemented, Docker deployment ready. Database integration and WhatsApp API connection are the next production steps.</p>
+      <div class="results" style="margin-top:1.5rem">
+        <div class="result"><div class="result__icon">📱</div><div class="result__val">9</div><div class="result__label">App routes</div></div>
+        <div class="result"><div class="result__icon">🎭</div><div class="result__val">2</div><div class="result__label">User roles</div></div>
+        <div class="result"><div class="result__icon">📋</div><div class="result__val">5-step</div><div class="result__label">WhatsApp wizard</div></div>
+        <div class="result"><div class="result__icon">🐳</div><div class="result__val">2</div><div class="result__label">Docker services</div></div>
+        <div class="result"><div class="result__icon">☁️</div><div class="result__val">Aruba</div><div class="result__label">VPS (Italy)</div></div>
+        <div class="result"><div class="result__icon">🔒</div><div class="result__val">GDPR</div><div class="result__label">Data residency</div></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- CTA -->
+  <section class="cs-cta">
+    <div class="container">
+      <h2>Interested in working together?</h2>
+      <p>Got a cloud project, an internal tool, or a web platform that needs building? Let's talk.</p>
+      <div class="cs-cta__btns">
+        <a href="../index.html#contact" class="btn btn--primary">Get in Touch</a>
+        <a href="warehouse.html" class="btn btn--ghost">View Warehouse Project</a>
+        <a href="../index.html" class="btn btn--ghost">← Back to Portfolio</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  </script>
+</body>
+</html>

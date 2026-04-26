@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Industrial Warehouse &amp; Operations Portal · Marco Pellegrino</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* ── Shared arch diagram styles (same as avis) ── */
+    .arch-diagram { display:flex;flex-direction:column;align-items:center;gap:0;padding:2rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);position:relative;overflow:hidden; }
+    .arch-diagram::before { content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px; }
+    .arch-cloud-badge { position:absolute;top:1rem;right:1rem;background:rgba(124,109,250,0.1);border:1px solid rgba(124,109,250,0.25);border-radius:20px;padding:0.3rem 0.8rem;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--purple);display:flex;align-items:center;gap:0.4rem; }
+    .arch-row { display:flex;align-items:center;justify-content:center;gap:1rem;position:relative;z-index:1;width:100%; }
+    .arch-arrow-v { display:flex;flex-direction:column;align-items:center;gap:0;position:relative;z-index:1; }
+    .arch-arrow-v__line { width:2px;height:32px;background:linear-gradient(to bottom,rgba(124,109,250,0.5),rgba(34,211,238,0.5)); }
+    .arch-arrow-v__tip { width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid rgba(34,211,238,0.6); }
+    .arch-arrow-h { display:flex;align-items:center;gap:0; }
+    .arch-arrow-h__line { height:2px;width:28px;background:linear-gradient(to right,rgba(124,109,250,0.4),rgba(34,211,238,0.4)); }
+    .arch-arrow-h__tip { width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:7px solid rgba(34,211,238,0.55); }
+    .arch-node { display:flex;flex-direction:column;align-items:center;gap:0.45rem;padding:1rem 1.25rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);min-width:110px;text-align:center;transition:border-color var(--t),box-shadow var(--t),transform var(--t);cursor:default;position:relative; }
+    .arch-node:hover { border-color:var(--border-hover);transform:translateY(-2px);box-shadow:var(--glow); }
+    .arch-node__icon { font-size:1.6rem; }
+    .arch-node__name { font-size:0.82rem;font-weight:600;color:var(--text);font-family:'Space Grotesk',sans-serif; }
+    .arch-node__sub  { font-size:0.68rem;color:var(--faint);font-family:'JetBrains Mono',monospace; }
+    .arch-node--purple { border-color:rgba(124,109,250,0.3);background:rgba(124,109,250,0.07); }
+    .arch-node--purple .arch-node__name { color:#a99eff; }
+    .arch-node--cyan   { border-color:rgba(34,211,238,0.3);background:rgba(34,211,238,0.06); }
+    .arch-node--cyan   .arch-node__name { color:#67e8f9; }
+    .arch-node--amber  { border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.06); }
+    .arch-node--amber  .arch-node__name { color:#fbbf24; }
+    .arch-why { position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border-hover);border-radius:var(--rsm);padding:0.5rem 0.7rem;font-size:0.68rem;color:var(--text);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.2s ease;z-index:10; }
+    .arch-why::after { content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--border-hover); }
+    .arch-node:hover .arch-why { opacity:1; }
+    .arch-branches { display:flex;align-items:flex-start;justify-content:center;gap:3rem;position:relative;z-index:1;width:100%; }
+    .arch-branch { display:flex;flex-direction:column;align-items:center;gap:0; }
+    .arch-branch__label { font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--faint);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem; }
+    .arch-divider { width:80%;height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);margin:1.2rem 0;position:relative;z-index:1; }
+    .arch-divider__label { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--bg2);padding:0 0.75rem;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--faint);letter-spacing:0.1em; }
+    .why-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.1rem;margin-top:1.5rem; }
+    .why-card { background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;transition:border-color var(--t),transform var(--t); }
+    .why-card:hover { border-color:var(--border-hover);transform:translateY(-2px); }
+    .why-card__header { display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem; }
+    .why-card__tech { font-family:'Space Grotesk',sans-serif;font-size:0.92rem;font-weight:600;color:var(--text); }
+    .why-card__reason { font-size:0.83rem;color:var(--muted);line-height:1.6; }
+    .why-card__badge { font-size:0.68rem;font-family:'JetBrains Mono',monospace;padding:0.18rem 0.5rem;border-radius:4px;margin-left:auto; }
+    .why-card__badge--chose { background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.25); }
+    .why-card__badge--alt   { background:rgba(255,255,255,0.05);color:var(--faint);border:1px solid var(--border); }
+
+    /* ── Case-study specific styles ── */
+    .cs-hero {
+      padding: 7rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cs-hero__bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 70% 40%, rgba(124,109,250,0.12) 0%, transparent 70%);
+    }
+    .cs-hero__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      transition: color var(--t);
+    }
+    .cs-hero__back:hover { color: var(--purple); }
+    .cs-hero__label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 0.8rem;
+    }
+    .cs-hero__title {
+      font-size: clamp(2rem, 6vw, 3.75rem);
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+      max-width: 780px;
+    }
+    .cs-hero__desc {
+      font-size: clamp(0.95rem, 2vw, 1.06rem);
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 700px;
+      margin-bottom: 1.75rem;
+    }
+    .cs-hero__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .meta-chip svg { flex-shrink: 0; }
+
+    /* Sections */
+    .cs-section { padding: clamp(3rem, 7vw, 5rem) 0; border-top: 1px solid var(--border); }
+    .cs-section:first-of-type { border-top: none; }
+
+    .cs-h2 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      margin-bottom: 1.25rem;
+    }
+    .cs-lead {
+      font-size: 0.97rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 780px;
+      margin-bottom: 2rem;
+    }
+
+    /* Two-col layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(1.5rem, 4vw, 3rem);
+    }
+    @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* Callout blocks */
+    .callout {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.4rem 1.5rem;
+    }
+    .callout--purple { border-color: rgba(124,109,250,0.25); background: rgba(124,109,250,0.06); }
+    .callout--cyan   { border-color: rgba(34,211,238,0.22); background: rgba(34,211,238,0.04); }
+    .callout__title  { font-size: 0.82rem; font-weight: 600; color: var(--purple); margin-bottom: 0.7rem; letter-spacing: 0.04em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+    .callout--cyan .callout__title { color: var(--cyan); }
+    .callout__list { display: flex; flex-direction: column; gap: 0.4rem; }
+    .callout__list li {
+      font-size: 0.87rem;
+      color: var(--muted);
+      padding-left: 1rem;
+      position: relative;
+    }
+    .callout__list li::before { content: '→'; position: absolute; left: 0; color: var(--purple); font-size: 0.78rem; }
+    .callout--cyan .callout__list li::before { color: var(--cyan); }
+
+    /* Screenshot showcase */
+    .ss-showcase { display: flex; flex-direction: column; gap: 2.25rem; margin-top: 1.5rem; }
+    .ss-group__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.9rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .ss-group__name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--purple);
+    }
+    .ss-group__count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--faint);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.55rem;
+      border-radius: 20px;
+    }
+    .ss-gallery--2col   { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    .ss-gallery--3col   { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; }
+    .ss-gallery--feat3  { display: grid; grid-template-columns: 3fr 2fr 2fr; gap: 0.85rem; }
+    @media (max-width: 680px) {
+      .ss-gallery--2col, .ss-gallery--3col, .ss-gallery--feat3 { grid-template-columns: 1fr; }
+    }
+    .gallery__item {
+      border-radius: var(--r);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card);
+      transition: transform var(--t), box-shadow var(--t);
+      cursor: zoom-in;
+    }
+    .gallery__item:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+    .gallery__item img   { width: 100%; object-fit: cover; aspect-ratio: 16/10; }
+    .gallery__caption {
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .gallery__caption strong { color: var(--text); font-weight: 500; }
+
+    /* Diagram */
+    .diagram-wrap {
+      border-radius: var(--r);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-top: 1.5rem;
+    }
+    .diagram-wrap img { width: 100%; }
+
+    /* Architecture layers */
+    .arch-layers {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-top: 1.5rem;
+    }
+    .arch-layer {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1.25rem;
+      border-radius: var(--rsm);
+      border: 1px solid var(--border);
+      background: var(--card);
+      transition: border-color var(--t);
+    }
+    .arch-layer:hover { border-color: var(--border-hover); }
+    .arch-layer__num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--purple-dim);
+      border: 1px solid rgba(124,109,250,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--purple);
+      flex-shrink: 0;
+    }
+    .arch-layer__name { font-size: 0.9rem; font-weight: 500; color: var(--text); min-width: 130px; }
+    .arch-layer__desc { font-size: 0.82rem; color: var(--muted); }
+    .arch-layer__tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-left: auto; flex-shrink: 0; }
+
+    /* DB entities */
+    .entities {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.9rem;
+      margin-top: 1.5rem;
+    }
+    .entity {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--rsm);
+      overflow: hidden;
+      transition: border-color var(--t), transform var(--t);
+    }
+    .entity:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .entity__header {
+      padding: 0.6rem 0.9rem;
+      background: rgba(124,109,250,0.1);
+      border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #a99eff;
+    }
+    .entity__fields { padding: 0.6rem 0.9rem; display: flex; flex-direction: column; gap: 0.22rem; }
+    .entity__field  { font-size: 0.75rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .entity__field--pk { color: var(--cyan); }
+    .entity__field--fk { color: #f59e0b; }
+
+    /* Challenges */
+    .challenges { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.5rem; }
+    .challenge {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.4rem 1.5rem;
+      transition: border-color var(--t);
+    }
+    .challenge:hover { border-color: var(--border-hover); }
+    .challenge__num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--purple);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+    }
+    .challenge__title { font-size: 1rem; color: var(--text); margin-bottom: 0.8rem; }
+    .challenge__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 560px) { .challenge__grid { grid-template-columns: 1fr; } }
+    .challenge__side { font-size: 0.84rem; line-height: 1.65; }
+    .challenge__side-label { font-size: 0.72rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .challenge__side-label--problem  { color: #f87171; }
+    .challenge__side-label--solution { color: #4ade80; }
+    .challenge__side p { color: var(--muted); }
+
+    /* Results */
+    .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.9rem;
+      margin-top: 1.5rem;
+    }
+    .result {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.25rem;
+      text-align: center;
+      transition: all var(--t);
+    }
+    .result:hover { border-color: var(--border-hover); transform: translateY(-3px); box-shadow: var(--glow); }
+    .result__icon { font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .result__val  { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
+    .result__label { font-size: 0.8rem; color: var(--muted); }
+
+    /* Deployment */
+    .docker-block {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.25rem 1.5rem;
+      margin-top: 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: var(--muted);
+      overflow-x: auto;
+    }
+    .docker-block .c-green  { color: #4ade80; }
+    .docker-block .c-blue   { color: #67e8f9; }
+    .docker-block .c-yellow { color: #fbbf24; }
+    .docker-block .c-dim    { color: var(--faint); }
+
+    /* CTA bottom */
+    .cs-cta {
+      padding: clamp(3rem, 6vw, 5rem) 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .cs-cta h2  { font-size: clamp(1.4rem, 3vw, 2rem); margin-bottom: 0.75rem; }
+    .cs-cta p   { color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; }
+    .cs-cta__btns { display: flex; justify-content: center; gap: 0.9rem; flex-wrap: wrap; }
+
+    /* Testimonial */
+    .testimonial {
+      background: var(--card);
+      border: 1px solid rgba(124,109,250,0.2);
+      border-left: 3px solid var(--purple);
+      border-radius: var(--r);
+      padding: 1.75rem 2rem 1.5rem;
+      margin-top: 1.5rem;
+      position: relative;
+    }
+    .testimonial__quote {
+      font-size: 0.97rem;
+      color: var(--muted);
+      line-height: 1.85;
+      font-style: italic;
+      margin-bottom: 1.25rem;
+    }
+    .testimonial__quote::before {
+      content: '\201C';
+      font-size: 3.5rem;
+      color: rgba(124,109,250,0.18);
+      font-style: normal;
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 0;
+      vertical-align: -1.2rem;
+      margin-right: 0.2rem;
+    }
+    .testimonial__footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+      font-size: 0.8rem;
+    }
+    .testimonial__role { font-weight: 500; color: var(--text); }
+    .testimonial__date { color: var(--faint); font-family: 'JetBrains Mono', monospace; }
+    .testimonial__source {
+      margin-left: auto;
+      font-size: 0.73rem;
+      color: var(--faint);
+      text-decoration: none;
+      transition: color var(--t);
+      opacity: 0.75;
+    }
+    .testimonial__source:hover { color: var(--purple); opacity: 1; }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img  { max-width: 95vw; max-height: 90vh; border-radius: var(--r); border: 1px solid var(--border); }
+    .lightbox__close {
+      position: absolute;
+      top: 1.25rem; right: 1.5rem;
+      font-size: 1.75rem; color: var(--muted); cursor: pointer;
+      background: none; border: none;
+      transition: color var(--t);
+    }
+    .lightbox__close:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav scrolled">
+    <div class="nav__container">
+      <a href="../index.html" class="nav__logo">MP<span class="accent">.</span></a>
+      <ul class="nav__links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#skills">Skills</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#projects" class="active">Projects</a></li>
+        <li><a href="../index.html#contact" class="nav__cta">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="cs-hero">
+    <div class="cs-hero__bg"></div>
+    <div class="container" style="position:relative;z-index:1;">
+      <a href="../index.html#projects" class="cs-hero__back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Portfolio
+      </a>
+      <div class="cs-hero__label">Case Study · Freelance Project</div>
+      <h1 class="cs-hero__title">Industrial Warehouse &amp;<br>Operations Portal</h1>
+      <p class="cs-hero__desc">A full-stack, production-grade management platform for industrial warehouse operations, delivered solo from requirements gathering to on-site deployment on a client touch-screen kiosk.</p>
+      <div class="cs-hero__meta">
+        <span class="meta-chip">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          2024–2025
+        </span>
+        <span class="meta-chip">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+          Solo Developer
+        </span>
+        <span class="meta-chip">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          C# · ASP.NET Core · SQL Server
+        </span>
+        <span class="meta-chip">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+          Docker · SQL Server 2022
+        </span>
+        <a href="https://github.com/pelle04/ProductsManager" target="_blank" rel="noopener" class="meta-chip" style="border-color:rgba(124,109,250,0.3);color:#a99eff;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- 1 · Overview -->
+    <section class="cs-section">
+      <div class="section__label">01 · Overview</div>
+      <h2 class="cs-h2">The Problem &amp; The Solution</h2>
+      <p class="cs-lead">An industrial warehouse client needed to replace a manual, paper-based system for tracking maintenance tasks and inventory. The platform runs on-premise on a touch-screen kiosk in the warehouse floor, used daily by operators and supervisors.</p>
+      <div class="two-col">
+        <div class="callout callout--purple">
+          <div class="callout__title">Problem</div>
+          <ul class="callout__list">
+            <li>No centralized system for maintenance task scheduling</li>
+            <li>Inventory tracked on paper — no critical stock alerts</li>
+            <li>No visibility into who did what and when</li>
+            <li>No recurring task support for periodic maintenance</li>
+            <li>Admin and operators needed separate access levels</li>
+          </ul>
+        </div>
+        <div class="callout callout--cyan">
+          <div class="callout__title">Solution</div>
+          <ul class="callout__list">
+            <li>Centralized web portal with real-time task tracking</li>
+            <li>Inventory module with configurable critical stock thresholds</li>
+            <li>Full audit trail — assigned operators, dates, status changes</li>
+            <li>Recurring task engine (daily / weekly / custom intervals)</li>
+            <li>Cookie-based auth with pin-protected admin actions</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 · Screenshots -->
+    <section class="cs-section">
+      <div class="section__label">02 · Product Screenshots</div>
+      <h2 class="cs-h2">Interface Walkthrough</h2>
+      <p class="cs-lead">The interface was designed for warehouse floor use — large targets, clear status colours, and pin-gated actions to prevent accidental edits by operators.</p>
+
+      <div class="ss-showcase">
+
+        <!-- Dashboard -->
+        <div class="ss-group">
+          <div class="ss-group__header">
+            <span class="ss-group__name">Dashboard</span>
+            <span class="ss-group__count">4 screens</span>
+          </div>
+          <div class="ss-gallery--2col">
+            <div class="gallery__item" data-img="../assets/screenshots/dash-magazzino-overview.png">
+              <img src="../assets/screenshots/dash-magazzino-overview.png" alt="Warehouse dashboard overview" loading="lazy">
+              <div class="gallery__caption"><strong>Warehouse Overview</strong> — real-time stock levels and key metrics at a glance.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/dash-magazzino-trends.png">
+              <img src="../assets/screenshots/dash-magazzino-trends.png" alt="Warehouse trends" loading="lazy">
+              <div class="gallery__caption"><strong>Trends &amp; Actions</strong> — stock movement charts and quick-action shortcuts.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/dash-magazzino-distribution.png">
+              <img src="../assets/screenshots/dash-magazzino-distribution.png" alt="Stock distribution" loading="lazy">
+              <div class="gallery__caption"><strong>Distribution View</strong> — inventory breakdown by sector, category, and machinery.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/dash-interventi-preview.png">
+              <img src="../assets/screenshots/dash-interventi-preview.png" alt="Interventions dashboard" loading="lazy">
+              <div class="gallery__caption"><strong>Task Dashboard</strong> — pending, urgent, and overdue tasks summarised by status.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Task Management -->
+        <div class="ss-group">
+          <div class="ss-group__header">
+            <span class="ss-group__name">Task Management</span>
+            <span class="ss-group__count">3 screens</span>
+          </div>
+          <div class="ss-gallery--feat3">
+            <div class="gallery__item" data-img="../assets/screenshots/pag-interventi.png">
+              <img src="../assets/screenshots/pag-interventi.png" alt="Task list" loading="lazy">
+              <div class="gallery__caption"><strong>Task List</strong> — sorted by urgency. Blinking badges for overdue tasks. Admin actions PIN-protected.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/filtri-interventi.png">
+              <img src="../assets/screenshots/filtri-interventi.png" alt="Filters" loading="lazy">
+              <div class="gallery__caption"><strong>Filters Panel</strong> — filter by status, sector, machinery, and date range.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/detail-intervento.png">
+              <img src="../assets/screenshots/detail-intervento.png" alt="Task detail" loading="lazy">
+              <div class="gallery__caption"><strong>Task Detail</strong> — operator assignment, status, and full task info.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Warehouse Inventory -->
+        <div class="ss-group">
+          <div class="ss-group__header">
+            <span class="ss-group__name">Warehouse Inventory</span>
+            <span class="ss-group__count">2 screens</span>
+          </div>
+          <div class="ss-gallery--2col">
+            <div class="gallery__item" data-img="../assets/screenshots/pag-magazzino.png">
+              <img src="../assets/screenshots/pag-magazzino.png" alt="Warehouse inventory" loading="lazy">
+              <div class="gallery__caption"><strong>Inventory List</strong> — multi-filter search. Critical stock highlighted in red below threshold.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/detail-prodotto.png">
+              <img src="../assets/screenshots/detail-prodotto.png" alt="Product detail" loading="lazy">
+              <div class="gallery__caption"><strong>Product Detail</strong> — brands, suppliers, pricing, machinery associations, and photo attachment.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendar & Touch UX -->
+        <div class="ss-group">
+          <div class="ss-group__header">
+            <span class="ss-group__name">Calendar &amp; Touch UX</span>
+            <span class="ss-group__count">2 screens</span>
+          </div>
+          <div class="ss-gallery--2col">
+            <div class="gallery__item" data-img="../assets/screenshots/calendario.png">
+              <img src="../assets/screenshots/calendario.png" alt="Calendar view" loading="lazy">
+              <div class="gallery__caption"><strong>Calendar</strong> — tasks and recurring events visualised across date dimensions.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/tastiera-touch.png">
+              <img src="../assets/screenshots/tastiera-touch.png" alt="Touch keyboard" loading="lazy">
+              <div class="gallery__caption"><strong>Touch Keyboard</strong> — on-screen virtual keyboard for kiosk use without a physical keyboard.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuration -->
+        <div class="ss-group">
+          <div class="ss-group__header">
+            <span class="ss-group__name">Configuration</span>
+            <span class="ss-group__count">3 screens</span>
+          </div>
+          <div class="ss-gallery--3col">
+            <div class="gallery__item" data-img="../assets/screenshots/config-utenti.png">
+              <img src="../assets/screenshots/config-utenti.png" alt="Users configuration" loading="lazy">
+              <div class="gallery__caption"><strong>Users</strong> — manage operator accounts and admin access.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/config-settori.png">
+              <img src="../assets/screenshots/config-settori.png" alt="Sectors taxonomy" loading="lazy">
+              <div class="gallery__caption"><strong>Sectors Taxonomy</strong> — hierarchical category tree for sectors.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/config-mezzi.png">
+              <img src="../assets/screenshots/config-mezzi.png" alt="Machinery taxonomy" loading="lazy">
+              <div class="gallery__caption"><strong>Machinery Taxonomy</strong> — category tree for machinery and equipment.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4 · Architecture Diagram -->
+    <section class="cs-section">
+      <div class="section__label">03 · System Architecture</div>
+      <h2 class="cs-h2">Architecture &amp; Technology Decisions</h2>
+      <p class="cs-lead">The application follows a strict layered architecture deployed entirely on-premise inside Docker containers. Every technology choice was driven by the on-premise kiosk constraint and client familiarity requirements.</p>
+
+      <div class="arch-diagram" style="margin-top:1.5rem">
+        <div class="arch-cloud-badge">🏭 On-Premise · Client's Machine</div>
+
+        <!-- Touch screen client -->
+        <div class="arch-row">
+          <div class="arch-node">
+            <div class="arch-why">Kiosk on the warehouse floor — touch-screen browser, no keyboard</div>
+            <div class="arch-node__icon">📱</div>
+            <div class="arch-node__name">Touch Screen</div>
+            <div class="arch-node__sub">Warehouse Kiosk</div>
+          </div>
+        </div>
+        <div class="arch-arrow-v"><div class="arch-arrow-v__line"></div><div class="arch-arrow-v__tip"></div></div>
+
+        <!-- Presentation layer -->
+        <div class="arch-row">
+          <div class="arch-node arch-node--purple">
+            <div class="arch-why">Razor Pages chosen over SPA: server-rendering is more reliable on-premise with no CDN</div>
+            <div class="arch-node__icon">🖥️</div>
+            <div class="arch-node__name">Razor Pages</div>
+            <div class="arch-node__sub">ASP.NET Core · Virtual Keyboard</div>
+          </div>
+        </div>
+        <div class="arch-arrow-v"><div class="arch-arrow-v__line"></div><div class="arch-arrow-v__tip"></div></div>
+
+        <!-- Service layer (branches) -->
+        <div class="arch-branches">
+          <div class="arch-branch">
+            <div class="arch-branch__label">Business Logic</div>
+            <div class="arch-arrow-v"><div class="arch-arrow-v__line"></div><div class="arch-arrow-v__tip"></div></div>
+            <div class="arch-node arch-node--purple">
+              <div class="arch-why">5 scoped DI services — all business logic isolated from pages; no logic in .cshtml.cs</div>
+              <div class="arch-node__icon">⚙️</div>
+              <div class="arch-node__name">Service Layer</div>
+              <div class="arch-node__sub">InterventiSvc · MagazzinoSvc<br>CalendarSvc · AdminSvc</div>
+            </div>
+          </div>
+          <div class="arch-branch">
+            <div class="arch-branch__label">Auth API</div>
+            <div class="arch-arrow-v"><div class="arch-arrow-v__line"></div><div class="arch-arrow-v__tip"></div></div>
+            <div class="arch-node arch-node--cyan">
+              <div class="arch-why">Custom cookie auth instead of ASP.NET Identity — operators don't need email/registration; full control over session logic</div>
+              <div class="arch-node__icon">🔐</div>
+              <div class="arch-node__name">Custom Auth</div>
+              <div class="arch-node__sub">Cookie-based · SHA256</div>
+            </div>
+          </div>
+          <div class="arch-branch">
+            <div class="arch-branch__label">Background</div>
+            <div class="arch-arrow-v"><div class="arch-arrow-v__line"></div><div class="arch-arrow-v__tip"></div></div>
+            <div class="arch-node arch-node--amber">
+              <div class="arch-why">Nightly raw SQL batch update — EF Core would add unnecessary overhead for a single-table status update job</div>
+              <div class="arch-node__icon">⏰</div>
+              <div class="arch-node__name">Background Job</div>
+              <div class="arch-node__sub">Nightly · 00:01 · Raw SQL</div>
+            </div>
+          </div>
+        </div>
+        <div class="arch-arrow-v"><div class="arch-arrow-v__line"></div><div class="arch-arrow-v__tip"></div></div>
+
+        <!-- EF Core -->
+        <div class="arch-row">
+          <div class="arch-node arch-node--purple">
+            <div class="arch-why">EF Core provides type-safe CRUD. 2-step query pattern avoids cartesian explosion with multiple .Include()</div>
+            <div class="arch-node__icon">🗂️</div>
+            <div class="arch-node__name">Entity Framework Core 8</div>
+            <div class="arch-node__sub">12 entities · Transactions · DTOs</div>
+          </div>
+        </div>
+        <div class="arch-arrow-v"><div class="arch-arrow-v__line"></div><div class="arch-arrow-v__tip"></div></div>
+
+        <!-- DB + Docker row -->
+        <div class="arch-row" style="gap:2rem">
+          <div class="arch-node arch-node--cyan">
+            <div class="arch-why">SQL Server 2022: relational structure fits the task/inventory domain perfectly; client already had SQL Server</div>
+            <div class="arch-node__icon">🗄️</div>
+            <div class="arch-node__name">SQL Server 2022</div>
+            <div class="arch-node__sub">Containerized</div>
+          </div>
+          <div class="arch-node arch-node--amber">
+            <div class="arch-why">Docker Compose: portable deployment — entire stack runs with one command on any Windows/Linux machine</div>
+            <div class="arch-node__icon">🐳</div>
+            <div class="arch-node__name">Docker Compose</div>
+            <div class="arch-node__sub">App + DB + Volumes</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.78rem;color:var(--faint);margin-top:0.75rem;text-align:center;font-family:'JetBrains Mono',monospace;">Hover each node to see the design rationale</p>
+
+      <!-- Why choices grid -->
+      <h3 style="font-size:1.1rem;margin-top:2.5rem;margin-bottom:0.25rem;">Why These Choices?</h3>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-card__header">
+            <span style="font-size:1.2rem">🖥️</span>
+            <span class="why-card__tech">Razor Pages over SPA</span>
+            <span class="why-card__badge why-card__badge--chose">Key Decision</span>
+          </div>
+          <p class="why-card__reason">The app runs on a kiosk with no internet. Razor Pages serve complete HTML from the server — no CDN, no JS bundle loading issues, no hydration problems. Simpler mental model for a CRUD-heavy workflow. The only JS needed is the virtual keyboard for touch input.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__header">
+            <span style="font-size:1.2rem">🔐</span>
+            <span class="why-card__tech">Custom Auth (No Identity)</span>
+            <span class="why-card__badge why-card__badge--chose">Key Decision</span>
+          </div>
+          <p class="why-card__reason">ASP.NET Identity brings email verification, password resets, and claim tables — all useless for warehouse operators who are assigned by an admin. Custom cookie auth with SHA256 + timing-safe comparison gives full control in ~100 lines of code.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__header">
+            <span style="font-size:1.2rem">🐳</span>
+            <span class="why-card__tech">Docker Compose</span>
+            <span class="why-card__badge why-card__badge--chose">Key Decision</span>
+          </div>
+          <p class="why-card__reason">The client has limited IT expertise. Docker means the entire stack — ASP.NET Core app + SQL Server 2022 — deploys with <code>docker compose up</code>. No manual SQL Server installation. Works identically on Windows or Linux. Health checks ensure the DB is ready before the app starts.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__header">
+            <span style="font-size:1.2rem">📦</span>
+            <span class="why-card__tech">Service + DTO Pattern</span>
+            <span class="why-card__badge why-card__badge--chose">Architecture</span>
+          </div>
+          <p class="why-card__reason">Pages call services, services return DTOs — never EF entities directly. This means the UI is decoupled from the database schema. Adding a computed property (like "next occurrence for recurring task") happens in the service, not scattered across page handlers.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__header">
+            <span style="font-size:1.2rem">⏰</span>
+            <span class="why-card__tech">Raw SQL for Background Job</span>
+            <span class="why-card__badge why-card__badge--alt">Intentional Tradeoff</span>
+          </div>
+          <p class="why-card__reason">The nightly job marks hundreds of overdue tasks as expired. Loading each entity through EF Core, checking the condition, and saving back would generate N round-trips. A single bulk UPDATE does it in one query, with no ORM overhead.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__header">
+            <span style="font-size:1.2rem">🌳</span>
+            <span class="why-card__tech">TaxonomyNode Self-Reference</span>
+            <span class="why-card__badge why-card__badge--chose">Architecture</span>
+          </div>
+          <p class="why-card__reason">Categories needed unlimited depth for future growth. A self-referencing table avoids separate tables per category level. Descendant traversal is done in-memory after loading the full tree once — avoids recursive SQL CTEs that are harder to maintain.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · Challenges -->
+    <section class="cs-section">
+      <div class="section__label">04 · Engineering Challenges</div>
+      <h2 class="cs-h2">Problems Solved</h2>
+      <p class="cs-lead">Three non-trivial engineering problems encountered during development and how they were resolved.</p>
+      <div class="challenges">
+        <div class="challenge">
+          <div class="challenge__num">CHALLENGE 01</div>
+          <h3 class="challenge__title">Recurring Task Expansion &amp; "Imminent" Filtering</h3>
+          <div class="challenge__grid">
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--problem">Problem</div>
+              <p>Tasks could repeat daily, on specific weekdays, or at custom intervals. The "imminent tasks" filter needed to show only tasks due in the next N hours — including the next occurrence of any recurring task — without storing each occurrence in the database.</p>
+            </div>
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--solution">Solution</div>
+              <p>Recurring tasks are stored as a single parent row with a linked <code>InterventoRipetizione</code> record. At query time, InterventiService calculates the next occurrence in-memory using Italian day-of-week parsing, then applies the imminent window filter before returning paged results.</p>
+            </div>
+          </div>
+        </div>
+        <div class="challenge">
+          <div class="challenge__num">CHALLENGE 02</div>
+          <h3 class="challenge__title">Hierarchical Taxonomy Filtering with Descendant Traversal</h3>
+          <div class="challenge__grid">
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--problem">Problem</div>
+              <p>The inventory category system is a multi-level tree (TaxonomyNode with self-referencing ParentId). Filtering products by a parent category needed to include all descendants, not just direct children — without recursive SQL.</p>
+            </div>
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--solution">Solution</div>
+              <p>MagazzinoService loads the full taxonomy tree once, then recursively collects all descendant node IDs in-memory. The product query then uses an <code>IN</code> clause against this pre-computed ID set. This avoids N+1 and complex recursive CTEs while keeping the query simple.</p>
+            </div>
+          </div>
+        </div>
+        <div class="challenge">
+          <div class="challenge__num">CHALLENGE 03</div>
+          <h3 class="challenge__title">Cartesian Explosion in Paginated Queries with Multiple Includes</h3>
+          <div class="challenge__grid">
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--problem">Problem</div>
+              <p>Products have multiple many-to-many relationships (brands, suppliers, machinery, images). Loading all of them in a single EF Core query with <code>.Include()</code> produced cartesian explosions — the same product row multiplied across all related rows, breaking pagination count.</p>
+            </div>
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--solution">Solution</div>
+              <p>Adopted a 2-step query pattern: first fetch the paginated product IDs (simple, fast), then load the full object graph for only those IDs in a second query. This eliminates cartesian explosion and keeps pagination accurate while still loading all related data.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · Deployment -->
+    <section class="cs-section">
+      <div class="section__label">05 · Deployment</div>
+      <h2 class="cs-h2">Docker-Based On-Premise Deployment</h2>
+      <p class="cs-lead">The application runs entirely on the client's local machine with no cloud dependency. A Docker Compose stack manages both the ASP.NET Core web app and SQL Server 2022, with health checks ensuring the database is ready before the app starts.</p>
+      <div class="docker-block">
+        <span class="c-green">services:</span><br>
+        &nbsp;&nbsp;<span class="c-blue">sqlserver:</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;image: <span class="c-yellow">mcr.microsoft.com/mssql/server:2022-latest</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;healthcheck: <span class="c-dim"># TCP check on 1433</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;volumes: <span class="c-dim">./sqlbackup → /var/opt/mssql/backup</span><br><br>
+        &nbsp;&nbsp;<span class="c-blue">webapp:</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;build: <span class="c-yellow">Dockerfile</span> <span class="c-dim"># multi-stage: SDK build → Runtime image</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;ports: <span class="c-yellow">8080:8080</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;depends_on: <span class="c-dim">sqlserver (condition: healthy)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;environment: <span class="c-dim">ConnectionStrings__DefaultConnection</span>
+      </div>
+    </section>
+
+    <!-- 7 · Results -->
+    <section class="cs-section">
+      <div class="section__label">06 · Results</div>
+      <h2 class="cs-h2">Delivery &amp; Impact</h2>
+      <p class="cs-lead">Shipped and deployed to a real warehouse client — from first requirement meeting to running on a touch-screen kiosk on the factory floor.</p>
+      <div class="results">
+        <div class="result">
+          <div class="result__icon">📦</div>
+          <div class="result__val">12</div>
+          <div class="result__label">Database entities</div>
+        </div>
+        <div class="result">
+          <div class="result__icon">⚙️</div>
+          <div class="result__val">5</div>
+          <div class="result__label">Business services</div>
+        </div>
+        <div class="result">
+          <div class="result__icon">📄</div>
+          <div class="result__val">23</div>
+          <div class="result__label">Razor pages</div>
+        </div>
+        <div class="result">
+          <div class="result__icon">🐳</div>
+          <div class="result__val">2</div>
+          <div class="result__label">Docker services</div>
+        </div>
+        <div class="result">
+          <div class="result__icon">🚀</div>
+          <div class="result__val">v1.2</div>
+          <div class="result__label">Stable release shipped</div>
+        </div>
+        <div class="result">
+          <div class="result__icon">🤝</div>
+          <div class="result__val">Solo</div>
+          <div class="result__label">End-to-end delivery</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 · Client Feedback -->
+    <section class="cs-section">
+      <div class="section__label">07 · Client Feedback</div>
+      <h2 class="cs-h2">What the Client Said</h2>
+      <p class="cs-lead">Feedback received after delivery — from initial requirements gathering to running in production on the warehouse floor.</p>
+      <div class="testimonial">
+        <p class="testimonial__quote">Ho avuto il piacere di collaborare con Marco per lo sviluppo di un software gestionale dedicato alla mia azienda e il risultato ha superato le aspettative. Marco non solo ha realizzato il prodotto rispettando al millimetro tutte le caratteristiche e le funzionalità che gli avevo richiesto, ma ha anche dimostrato una disponibilità eccezionale. Ha accolto ogni richiesta di confronto con prontezza e professionalità, rendendo l'intero processo fluido e senza stress. Lo raccomando caldamente a chiunque cerchi uno sviluppatore affidabile, competente e orientato alle soluzioni.</p>
+        <div class="testimonial__footer">
+          <span class="testimonial__role">Sales Manager &amp; Area Technical Manager</span>
+          <span class="testimonial__date">February 2026</span>
+          <a href="https://www.linkedin.com/in/marco-pellegrino-75611b229/" target="_blank" rel="noopener" class="testimonial__source">Also in the recommendations section on LinkedIn →</a>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /container -->
+
+  <!-- CTA -->
+  <section class="cs-cta">
+    <div class="container">
+      <h2>Interested in working together?</h2>
+      <p>Whether it's a similar industrial solution or something completely different — let's talk.</p>
+      <div class="cs-cta__btns">
+        <a href="../index.html#contact" class="btn btn--primary">Get in Touch</a>
+        <a href="https://github.com/pelle04/ProductsManager" target="_blank" rel="noopener" class="btn btn--ghost">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          View on GitHub
+        </a>
+        <a href="../index.html" class="btn btn--ghost">← Back to Portfolio</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox__close" id="lbClose">×</button>
+    <img id="lbImg" src="" alt="">
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // Lightbox
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    document.querySelectorAll('.gallery__item[data-img]').forEach(item => {
+      item.addEventListener('click', () => {
+        lbImg.src = item.dataset.img;
+        lb.classList.add('open');
+      });
+    });
+    document.getElementById('lbClose').addEventListener('click', () => lb.classList.remove('open'));
+    lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
+
+    // Reveal all on page (no hero animation needed here)
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  </script>
+</body>
+</html>

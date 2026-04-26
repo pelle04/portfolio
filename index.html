@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Marco Pellegrino – Software Developer specializing in C#, .NET, logistics and industrial automation. Based in Milan, Italy.">
+  <title>Marco Pellegrino · Software Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav" id="nav">
+    <div class="nav__container">
+      <a href="#" class="nav__logo">MP<span class="accent">.</span></a>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#about"      data-i18n="nav_about">About</a></li>
+        <li><a href="#skills"     data-i18n="nav_skills">Skills</a></li>
+        <li><a href="#experience" data-i18n="nav_exp">Experience</a></li>
+        <li><a href="#projects"   data-i18n="nav_proj">Projects</a></li>
+        <li><a href="#certifications" data-i18n="nav_certs">Certifications</a></li>
+        <li><a href="#contact" class="nav__cta" data-i18n="nav_contact">Contact</a></li>
+        <li>
+          <button class="lang-toggle" id="langToggle" aria-label="Switch language">
+            <span id="langFlag">🇬🇧</span>
+            <span id="langLabel">EN</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero" id="hero">
+    <div class="hero__bg">
+      <div class="blob blob--1"></div>
+      <div class="blob blob--2"></div>
+      <div class="blob blob--3"></div>
+      <div class="grid-overlay"></div>
+    </div>
+    <div class="hero__content">
+      <p class="hero__greeting reveal" data-i18n="hero_greeting">Hi, I'm</p>
+      <h1 class="hero__name reveal">Marco<br><span class="gradient-text">Pellegrino</span></h1>
+      <div class="hero__role reveal">
+        <span class="hero__role-static" data-i18n="hero_role_static">Software Developer</span>
+        <span class="hero__role-sep">·</span>
+        <span class="hero__typed" id="typedText"></span>
+      </div>
+      <p class="hero__tagline reveal" data-i18n="hero_tagline">Building enterprise software for logistics, industrial automation, and web platforms. Based in Milan, Italy.</p>
+      <div class="hero__actions reveal">
+        <a href="#projects" class="btn btn--primary" data-i18n="hero_cta1">View Projects</a>
+        <a href="#contact"  class="btn btn--ghost"   data-i18n="hero_cta2">Get in Touch</a>
+      </div>
+      <div class="hero__stats reveal">
+        <div class="stat">
+          <div class="stat__row"><span class="stat__num" data-count="3">0</span><span class="stat__unit">+</span></div>
+          <span class="stat__label" data-i18n="stat1_label">Years Experience</span>
+        </div>
+        <div class="stat__divider"></div>
+        <div class="stat">
+          <div class="stat__row"><span class="stat__num" data-count="3">0</span></div>
+          <span class="stat__label" data-i18n="stat2_label">Major Projects</span>
+        </div>
+        <div class="stat__divider"></div>
+        <div class="stat">
+          <div class="stat__row"><span class="stat__num" data-count="6">0</span><span class="stat__unit">+</span></div>
+          <span class="stat__label" data-i18n="stat3_label">Tech Stacks</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero__scroll">
+      <span data-i18n="scroll_lbl">Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ── About ── -->
+  <section class="section about" id="about">
+    <div class="container">
+      <div class="about__grid">
+        <div class="about__visual reveal">
+          <div class="about__avatar">
+            <div class="avatar__face" id="avatarFace">
+              <img src="assets/profile.jpg" alt="Marco Pellegrino" class="avatar__img"
+                   onerror="this.style.display='none';document.getElementById('avatarInitials').style.display='flex'">
+              <span class="avatar__initials" id="avatarInitials">MP</span>
+            </div>
+            <div class="avatar__ring"></div>
+            <div class="avatar__badge">
+              <div class="badge__dot"></div>
+              <span data-i18n="about_available">Available</span>
+            </div>
+          </div>
+          <p class="about__location">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span data-i18n="about_loc">Milan, Italy</span>
+          </p>
+        </div>
+        <div class="about__content">
+          <div class="section__label reveal" data-i18n="about_label">About Me</div>
+          <h2 class="section__title reveal" data-i18n="about_title">Software Developer with an Industrial Edge</h2>
+          <div class="about__text reveal">
+            <p data-i18n="about_p1">I'm a software developer focused on the .NET and C# ecosystem, working across enterprise web platforms, logistics systems, industrial automation, and full-stack web delivery.</p>
+            <p data-i18n="about_p2">What sets me apart is experience with the full delivery cycle — from gathering requirements with clients, to building, containerizing, and supporting production. I've shipped freelance projects end-to-end: blank repo to running on a client's systems.</p>
+          </div>
+          <div class="about__qualities reveal">
+            <div class="quality">
+              <span class="quality__icon">⚙️</span>
+              <div><strong data-i18n="q1_strong">Backend Focus</strong><span data-i18n="q1_span">ASP.NET Core, C#, SQL Server, Entity Framework</span></div>
+            </div>
+            <div class="quality">
+              <span class="quality__icon">🏭</span>
+              <div><strong data-i18n="q2_strong">Industrial &amp; Automation</strong><span data-i18n="q2_span">SCADA / HMI, FT Optix Studio, Embedded C++</span></div>
+            </div>
+            <div class="quality">
+              <span class="quality__icon">🚀</span>
+              <div><strong data-i18n="q3_strong">End-to-End Delivery</strong><span data-i18n="q3_span">Docker, Git, client requirements, post-release support</span></div>
+            </div>
+          </div>
+          <div class="about__cta reveal">
+            <a href="https://www.linkedin.com/in/marco-pellegrino-75611b229/" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+            </a>
+            <a href="https://github.com/pelle04" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Skills ── -->
+  <section class="section skills" id="skills">
+    <div class="container">
+      <div class="section__header">
+        <div class="section__label reveal" data-i18n="skills_label">Tech Stack</div>
+        <h2 class="section__title reveal" data-i18n="skills_title">Skills &amp; Technologies</h2>
+      </div>
+      <div class="skills__grid">
+        <div class="skill-card reveal">
+          <div class="skill-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <h3 class="skill-card__title" data-i18n="skill1_title">Languages</h3>
+          <div class="skill-tags">
+            <span class="tag tag--primary">C#</span><span class="tag">SQL</span><span class="tag">C / C++</span>
+            <span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">HTML / CSS</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <h3 class="skill-card__title" data-i18n="skill2_title">Frameworks &amp; Platforms</h3>
+          <div class="skill-tags">
+            <span class="tag tag--primary">ASP.NET Core</span><span class="tag">Entity Framework</span>
+            <span class="tag">Razor Pages</span><span class="tag">React</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+          <h3 class="skill-card__title" data-i18n="skill3_title">Data &amp; Infrastructure</h3>
+          <div class="skill-tags">
+            <span class="tag tag--primary">SQL Server</span><span class="tag">PostgreSQL</span>
+            <span class="tag">Docker</span><span class="tag">Git</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg></div>
+          <h3 class="skill-card__title" data-i18n="skill4_title">Industrial &amp; Embedded</h3>
+          <div class="skill-tags">
+            <span class="tag tag--secondary">FT Optix Studio</span><span class="tag">SCADA / HMI</span>
+            <span class="tag">Embedded C++</span><span class="tag">SDK Integration</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+          <h3 class="skill-card__title" data-i18n="skill5_title">Dev Tools</h3>
+          <div class="skill-tags">
+            <span class="tag">Visual Studio</span><span class="tag">VS Code</span><span class="tag">GitHub</span><span class="tag">Docker Compose</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg></div>
+          <h3 class="skill-card__title" data-i18n="skill6_title">Soft Skills</h3>
+          <div class="skill-tags">
+            <span class="tag" data-i18n="skill6_1">Client Requirements</span>
+            <span class="tag" data-i18n="skill6_2">Freelance Delivery</span>
+            <span class="tag" data-i18n="skill6_3">Post-release Support</span>
+            <span class="tag">IT · EN B2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Experience ── -->
+  <section class="section experience" id="experience">
+    <div class="container">
+      <div class="section__header">
+        <div class="section__label reveal" data-i18n="exp_label">Career Path</div>
+        <h2 class="section__title reveal" data-i18n="exp_title">Experience &amp; Education</h2>
+      </div>
+      <div class="timeline">
+
+        <!-- Infraservice -->
+        <div class="timeline__item reveal">
+          <div class="timeline__dot timeline__dot--active"></div>
+          <div class="timeline__content card">
+            <div class="timeline__meta">
+              <span class="timeline__date" data-i18n="infra_date">Sep 2023 – Present</span>
+              <span class="timeline__badge" data-i18n="infra_badge">Current</span>
+            </div>
+            <h3 class="timeline__role" data-i18n="infra_role">Software Developer</h3>
+            <p class="timeline__company" data-i18n="infra_company">Infraservice S.r.l. · Bovisio Masciago (MB)</p>
+            <ul class="timeline__list">
+              <li data-i18n="infra_1">Development and maintenance of C# / .NET enterprise applications</li>
+              <li data-i18n="infra_2">Backend business logic implementation with ASP.NET Core</li>
+              <li data-i18n="infra_3">Embedded library and system development in C++</li>
+              <li data-i18n="infra_4">Relational database design and SQL query optimization</li>
+              <li data-i18n="infra_5">Industrial automation development with FT Optix Studio (SCADA/HMI)</li>
+            </ul>
+            <div class="timeline__tags">
+              <span class="tag tag--sm">C#</span><span class="tag tag--sm">.NET 8</span>
+              <span class="tag tag--sm">ASP.NET Core</span><span class="tag tag--sm">SQL Server</span>
+              <span class="tag tag--sm">C++</span><span class="tag tag--sm">FT Optix</span><span class="tag tag--sm">Docker</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aries -->
+        <div class="timeline__item reveal">
+          <div class="timeline__dot"></div>
+          <div class="timeline__content card">
+            <div class="timeline__meta">
+              <span class="timeline__date" data-i18n="aries_date">Mar 2022 – Jun 2022</span>
+              <span class="timeline__badge timeline__badge--muted" data-i18n="aries_badge">Internship</span>
+            </div>
+            <h3 class="timeline__role" data-i18n="aries_role">IT Intern</h3>
+            <p class="timeline__company" data-i18n="aries_company">Aries Tech Cathedra S.r.l. · Seregno (MB)</p>
+            <ul class="timeline__list">
+              <li data-i18n="aries_1">4-month school-work alternance in software development and databases</li>
+              <li data-i18n="aries_2">Relational databases fundamentals and SQL language</li>
+              <li data-i18n="aries_3">Introduction to C# and ASP.NET Core development</li>
+              <li data-i18n="aries_4">Introductory training on blockchain technologies</li>
+            </ul>
+            <div class="timeline__tags">
+              <span class="tag tag--sm">C#</span><span class="tag tag--sm">SQL</span><span class="tag tag--sm">ASP.NET Core</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="timeline__item reveal">
+          <div class="timeline__dot"></div>
+          <div class="timeline__content card">
+            <div class="timeline__meta">
+              <span class="timeline__date">2018 – 2023</span>
+              <span class="timeline__badge timeline__badge--edu" data-i18n="edu_badge">Education</span>
+            </div>
+            <h3 class="timeline__role" data-i18n="edu_role">Technical Diploma – Computer Science</h3>
+            <p class="timeline__company" data-i18n="edu_company">IIS Jean Monnet · Mariano Comense (CO)</p>
+            <ul class="timeline__list">
+              <li data-i18n="edu_1">Programming, databases, IT systems and telecommunications</li>
+            </ul>
+            <div class="timeline__tags">
+              <span class="tag tag--sm">Programming</span><span class="tag tag--sm">Databases</span><span class="tag tag--sm">Networking</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Certifications ── -->
+  <section class="section certifications" id="certifications">
+    <div class="container">
+      <div class="section__header">
+        <div class="section__label reveal" data-i18n="certs_label">Certifications</div>
+        <h2 class="section__title reveal" data-i18n="certs_title">Credentials &amp; Certifications</h2>
+      </div>
+      <div class="certs__grid">
+
+        <div class="cert-card reveal">
+          <div class="cert-card__top">
+            <div class="cert-card__icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <span class="cert-card__verified">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span data-i18n="cert_verified">Verified</span>
+            </span>
+          </div>
+          <div class="cert-card__body">
+            <p class="cert-card__issuer">Microsoft</p>
+            <h3 class="cert-card__name" data-i18n="cert_az900_name">Microsoft Azure Fundamentals</h3>
+            <span class="cert-card__badge">AZ-900</span>
+          </div>
+          <div class="cert-card__footer">
+            <div class="cert-card__meta">
+              <span class="cert-card__date">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Apr 2026
+              </span>
+              <span class="cert-card__id">ID: 3FC2BB8F02EBB380</span>
+            </div>
+            <a href="https://learn.microsoft.com/it-it/users/marcopellegrino-4114/credentials/3fc2bb8f02ebb380"
+               target="_blank" rel="noopener"
+               class="btn btn--ghost btn--sm cert-card__link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span data-i18n="cert_verify">View Credential</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Projects ── -->
+  <section class="section projects" id="projects">
+    <div class="container">
+      <div class="section__header">
+        <div class="section__label reveal" data-i18n="proj_label">Portfolio</div>
+        <h2 class="section__title reveal" data-i18n="proj_title">Projects</h2>
+        <p class="section__sub reveal" data-i18n="proj_sub">End-to-end deliveries, from blank repository to production.</p>
+      </div>
+
+      <!-- Featured: Warehouse -->
+      <div class="project-featured reveal">
+        <div class="project-featured__content">
+          <div class="project-featured__label" data-i18n="w_label">Featured Project · Freelance</div>
+          <h3 class="project-featured__title" data-i18n="w_title">Industrial Warehouse &amp;<br>Operations Portal</h3>
+          <p class="project-featured__desc" data-i18n="w_desc">A full-stack, production-grade management platform for industrial warehouse operations. Designed for touch-screen kiosk use, supporting operators and administrators across task scheduling, inventory control, and calendar-based planning — built and delivered solo, end-to-end.</p>
+          <div class="project-featured__features">
+            <div class="feat"><div class="feat__dot"></div><span data-i18n="w_f1">Maintenance task scheduling with recurring patterns (daily, weekly, custom intervals)</span></div>
+            <div class="feat"><div class="feat__dot"></div><span data-i18n="w_f2">Warehouse inventory with critical stock alerts &amp; hierarchical taxonomy filtering</span></div>
+            <div class="feat"><div class="feat__dot"></div><span data-i18n="w_f3">Calendar view across multiple date dimensions with recurring task expansion</span></div>
+            <div class="feat"><div class="feat__dot"></div><span data-i18n="w_f4">Custom cookie auth, role-based access, Docker containerization on SQL Server 2022</span></div>
+          </div>
+          <div class="project-featured__stack">
+            <span class="tag tag--primary">C#</span><span class="tag tag--primary">ASP.NET Core</span>
+            <span class="tag">SQL Server</span><span class="tag">Entity Framework</span><span class="tag">Docker</span><span class="tag">Razor Pages</span>
+          </div>
+          <div class="project-featured__actions">
+            <a href="projects/warehouse.html" class="btn btn--primary" data-i18n="w_case">View Case Study →</a>
+          </div>
+        </div>
+        <div class="project-featured__visual">
+          <div class="screenshot-stack">
+            <div class="screenshot screenshot--back"><img src="assets/screenshots/pag-magazzino.png" alt="Warehouse view" loading="lazy"></div>
+            <div class="screenshot screenshot--front"><img src="assets/screenshots/pag-interventi.png" alt="Interventions page" loading="lazy"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Small cards grid -->
+      <div class="projects__grid">
+        <div class="project-card reveal">
+          <div class="project-card__header">
+            <div class="project-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg></div>
+            <span class="project-card__type" data-i18n="scada_type">Infraservice</span>
+          </div>
+          <h3 class="project-card__title" data-i18n="scada_title">Industrial SCADA / HMI Automation Systems</h3>
+          <p class="project-card__desc" data-i18n="scada_desc">SCADA/HMI automation platform with proprietary SDK integration for thermal cameras. Real-time monitoring, visualization, and automated control logic scripted in C# via FT Optix Studio.</p>
+          <div class="project-card__stack">
+            <span class="tag tag--sm">FT Optix</span><span class="tag tag--sm">C#</span><span class="tag tag--sm">SDK Integration</span><span class="tag tag--sm">SCADA</span>
+          </div>
+        </div>
+        <div class="project-card reveal">
+          <div class="project-card__header">
+            <div class="project-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <span class="project-card__type" data-i18n="mon_type">Infraservice</span>
+          </div>
+          <h3 class="project-card__title" data-i18n="mon_title">On-Premise Monitoring &amp; Reporting Platform</h3>
+          <p class="project-card__desc" data-i18n="mon_desc">Multi-client on-premise web platform for real-time monitoring, alarm management, and data analytics. Integrates field data from thermal cameras to generate alarms and exportable reports.</p>
+          <div class="project-card__stack">
+            <span class="tag tag--sm">ASP.NET Core</span><span class="tag tag--sm">SQL Server</span><span class="tag tag--sm">Razor Pages</span><span class="tag tag--sm">JavaScript</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ── -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="contact__inner reveal">
+        <div class="section__label" data-i18n="contact_label">Get In Touch</div>
+        <h2 class="contact__title" data-i18n="contact_title">Let's Work Together</h2>
+        <p class="contact__sub" data-i18n="contact_sub">I'm open to new opportunities — full-time, freelance, or interesting projects. If you have something in mind, send me a message.</p>
+        <a href="mailto:pellegrinomarco04@gmail.com" class="btn btn--primary btn--lg">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          pellegrinomarco04@gmail.com
+        </a>
+        <div class="contact__links">
+          <a href="https://www.linkedin.com/in/marco-pellegrino-75611b229/" target="_blank" rel="noopener" class="contact__link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://github.com/pelle04" target="_blank" rel="noopener" class="contact__link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            GitHub
+          </a>
+          <a href="tel:+393911882713" class="contact__link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.1 1.17 2 2 0 012.11 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l.62-.45a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            +39 391 188 2713
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer__text"><span data-i18n="footer_built">Designed &amp; built by</span> <strong>Marco Pellegrino</strong> · <span id="year"></span></p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
