@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Marco Pellegrino – Software Developer specializing in C#, .NET, logistics and industrial automation. Based in Milan, Italy.">
-  <title>Marco Pellegrino · Software Developer</title>
+  <meta name="description" content="Marco Pellegrino – Software Engineer specializing in C#, .NET, industrial automation, and cloud (Azure). Based in Milan, Italy.">
+  <title>Marco Pellegrino · Software Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -38,39 +38,34 @@
 
   <!-- ── Hero ── -->
   <section class="hero" id="hero">
-    <div class="hero__bg">
-      <div class="blob blob--1"></div>
-      <div class="blob blob--2"></div>
-      <div class="blob blob--3"></div>
-      <div class="grid-overlay"></div>
-    </div>
+    <div class="hero__bg"></div>
     <div class="hero__content">
       <p class="hero__greeting reveal" data-i18n="hero_greeting">Hi, I'm</p>
-      <h1 class="hero__name reveal">Marco<br><span class="gradient-text">Pellegrino</span></h1>
+      <h1 class="hero__name reveal">Marco<br><span class="accent">Pellegrino</span></h1>
       <div class="hero__role reveal">
-        <span class="hero__role-static" data-i18n="hero_role_static">Software Developer</span>
+        <span class="hero__role-static" data-i18n="hero_role_static">Software Engineer</span>
         <span class="hero__role-sep">·</span>
-        <span class="hero__typed" id="typedText"></span>
+        <span class="hero__role-focus" data-i18n="hero_role_focus">.NET, Industrial Systems &amp; Cloud</span>
       </div>
-      <p class="hero__tagline reveal" data-i18n="hero_tagline">Building enterprise software for logistics, industrial automation, and web platforms. Based in Milan, Italy.</p>
+      <p class="hero__tagline reveal" data-i18n="hero_tagline">Building backend systems, desktop applications, and industrial automation software across the full lifecycle — from architecture to production. Currently at KION Group, based in Milan, Italy.</p>
       <div class="hero__actions reveal">
         <a href="#projects" class="btn btn--primary" data-i18n="hero_cta1">View Projects</a>
         <a href="#contact"  class="btn btn--ghost"   data-i18n="hero_cta2">Get in Touch</a>
       </div>
       <div class="hero__stats reveal">
         <div class="stat">
-          <div class="stat__row"><span class="stat__num" data-count="3">0</span><span class="stat__unit">+</span></div>
+          <div class="stat__row"><span class="stat__num">3</span><span class="stat__unit">+</span></div>
           <span class="stat__label" data-i18n="stat1_label">Years Experience</span>
         </div>
         <div class="stat__divider"></div>
         <div class="stat">
-          <div class="stat__row"><span class="stat__num" data-count="3">0</span></div>
+          <div class="stat__row"><span class="stat__num">3</span></div>
           <span class="stat__label" data-i18n="stat2_label">Major Projects</span>
         </div>
         <div class="stat__divider"></div>
         <div class="stat">
-          <div class="stat__row"><span class="stat__num" data-count="6">0</span><span class="stat__unit">+</span></div>
-          <span class="stat__label" data-i18n="stat3_label">Tech Stacks</span>
+          <div class="stat__row"><span class="stat__num">2</span></div>
+          <span class="stat__label" data-i18n="stat3_label">Azure Certifications</span>
         </div>
       </div>
     </div>
@@ -92,10 +87,6 @@
               <span class="avatar__initials" id="avatarInitials">MP</span>
             </div>
             <div class="avatar__ring"></div>
-            <div class="avatar__badge">
-              <div class="badge__dot"></div>
-              <span data-i18n="about_available">Available</span>
-            </div>
           </div>
           <p class="about__location">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -104,23 +95,29 @@
         </div>
         <div class="about__content">
           <div class="section__label reveal" data-i18n="about_label">About Me</div>
-          <h2 class="section__title reveal" data-i18n="about_title">Software Developer with an Industrial Edge</h2>
+          <h2 class="section__title reveal" data-i18n="about_title">Software Engineer Building Enterprise &amp; Industrial Systems</h2>
           <div class="about__text reveal">
-            <p data-i18n="about_p1">I'm a software developer focused on the .NET and C# ecosystem, working across enterprise web platforms, logistics systems, industrial automation, and full-stack web delivery.</p>
-            <p data-i18n="about_p2">What sets me apart is experience with the full delivery cycle — from gathering requirements with clients, to building, containerizing, and supporting production. I've shipped freelance projects end-to-end: blank repo to running on a client's systems.</p>
+            <p data-i18n="about_p1">I'm a software engineer focused on the .NET and C# ecosystem, working across backend systems, desktop applications, industrial automation, and enterprise platforms.</p>
+            <p data-i18n="about_p2">My experience spans the full software lifecycle — from architecture and development to deployment, commissioning, and production support — combining backend engineering with hands-on industrial automation. I'm Azure-certified and increasingly focused on cloud technologies, distributed systems, and scalable architecture.</p>
           </div>
           <div class="about__qualities reveal">
             <div class="quality">
-              <span class="quality__icon">⚙️</span>
-              <div><strong data-i18n="q1_strong">Backend Focus</strong><span data-i18n="q1_span">ASP.NET Core, C#, SQL Server, Entity Framework</span></div>
+              <span class="quality__icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </span>
+              <div><strong data-i18n="q1_strong">Backend &amp; Architecture</strong><span data-i18n="q1_span">ASP.NET Core, C#, WPF / MVVM, Dependency Injection, SQL Server</span></div>
             </div>
             <div class="quality">
-              <span class="quality__icon">🏭</span>
-              <div><strong data-i18n="q2_strong">Industrial &amp; Automation</strong><span data-i18n="q2_span">SCADA / HMI, FT Optix Studio, Embedded C++</span></div>
+              <span class="quality__icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+              </span>
+              <div><strong data-i18n="q2_strong">Industrial Automation</strong><span data-i18n="q2_span">SCADA / HMI, FT Optix Studio, Embedded C++</span></div>
             </div>
             <div class="quality">
-              <span class="quality__icon">🚀</span>
-              <div><strong data-i18n="q3_strong">End-to-End Delivery</strong><span data-i18n="q3_span">Docker, Git, client requirements, post-release support</span></div>
+              <span class="quality__icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              </span>
+              <div><strong data-i18n="q3_strong">Cloud &amp; Delivery</strong><span data-i18n="q3_span">Microsoft Azure (AZ-900, AZ-104), Docker, Git, full-lifecycle ownership</span></div>
             </div>
           </div>
           <div class="about__cta reveal">
@@ -151,23 +148,22 @@
           <h3 class="skill-card__title" data-i18n="skill1_title">Languages</h3>
           <div class="skill-tags">
             <span class="tag tag--primary">C#</span><span class="tag">SQL</span><span class="tag">C / C++</span>
-            <span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">HTML / CSS</span>
           </div>
         </div>
         <div class="skill-card reveal">
           <div class="skill-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-          <h3 class="skill-card__title" data-i18n="skill2_title">Frameworks &amp; Platforms</h3>
+          <h3 class="skill-card__title" data-i18n="skill2_title">Frameworks &amp; Architecture</h3>
           <div class="skill-tags">
-            <span class="tag tag--primary">ASP.NET Core</span><span class="tag">Entity Framework</span>
-            <span class="tag">Razor Pages</span><span class="tag">React</span>
+            <span class="tag tag--primary">ASP.NET Core</span><span class="tag">WPF</span><span class="tag">MVVM</span>
+            <span class="tag">Dependency Injection</span><span class="tag">Entity Framework</span><span class="tag">Razor Pages</span>
           </div>
         </div>
         <div class="skill-card reveal">
           <div class="skill-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
-          <h3 class="skill-card__title" data-i18n="skill3_title">Data &amp; Infrastructure</h3>
+          <h3 class="skill-card__title" data-i18n="skill3_title">Cloud, Data &amp; Infrastructure</h3>
           <div class="skill-tags">
-            <span class="tag tag--primary">SQL Server</span><span class="tag">PostgreSQL</span>
-            <span class="tag">Docker</span><span class="tag">Git</span>
+            <span class="tag tag--primary">Microsoft Azure</span><span class="tag">SQL Server</span>
+            <span class="tag">PostgreSQL</span><span class="tag">Docker</span><span class="tag">Git</span>
           </div>
         </div>
         <div class="skill-card reveal">
@@ -176,23 +172,6 @@
           <div class="skill-tags">
             <span class="tag tag--secondary">FT Optix Studio</span><span class="tag">SCADA / HMI</span>
             <span class="tag">Embedded C++</span><span class="tag">SDK Integration</span>
-          </div>
-        </div>
-        <div class="skill-card reveal">
-          <div class="skill-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
-          <h3 class="skill-card__title" data-i18n="skill5_title">Dev Tools</h3>
-          <div class="skill-tags">
-            <span class="tag">Visual Studio</span><span class="tag">VS Code</span><span class="tag">GitHub</span><span class="tag">Docker Compose</span>
-          </div>
-        </div>
-        <div class="skill-card reveal">
-          <div class="skill-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg></div>
-          <h3 class="skill-card__title" data-i18n="skill6_title">Soft Skills</h3>
-          <div class="skill-tags">
-            <span class="tag" data-i18n="skill6_1">Client Requirements</span>
-            <span class="tag" data-i18n="skill6_2">Freelance Delivery</span>
-            <span class="tag" data-i18n="skill6_3">Post-release Support</span>
-            <span class="tag">IT · EN B2</span>
           </div>
         </div>
       </div>
@@ -208,27 +187,48 @@
       </div>
       <div class="timeline">
 
-        <!-- Infraservice -->
+        <!-- KION Group -->
         <div class="timeline__item reveal">
           <div class="timeline__dot timeline__dot--active"></div>
           <div class="timeline__content card">
             <div class="timeline__meta">
-              <span class="timeline__date" data-i18n="infra_date">Sep 2023 – Present</span>
-              <span class="timeline__badge" data-i18n="infra_badge">Current</span>
+              <span class="timeline__date" data-i18n="kion_date">Jul 2026 – Present</span>
+              <span class="timeline__badge" data-i18n="kion_badge">Current</span>
+            </div>
+            <h3 class="timeline__role" data-i18n="kion_role">Software Engineer</h3>
+            <p class="timeline__company" data-i18n="kion_company">KION Group · Milan, Italy (Hybrid)</p>
+            <ul class="timeline__list">
+              <li data-i18n="kion_1">Develop and maintain backend and desktop software for automated warehouse and material handling systems, combining application development with field commissioning</li>
+              <li data-i18n="kion_2">Deploy, troubleshoot, and support software in production environments, driving system integration and delivery for large-scale industrial installations</li>
+            </ul>
+            <div class="timeline__tags">
+              <span class="tag tag--sm">C#</span><span class="tag tag--sm">.NET</span>
+              <span class="tag tag--sm">Industrial Automation</span><span class="tag tag--sm">System Integration</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Infraservice -->
+        <div class="timeline__item reveal">
+          <div class="timeline__dot"></div>
+          <div class="timeline__content card">
+            <div class="timeline__meta">
+              <span class="timeline__date" data-i18n="infra_date">Sep 2023 – Jun 2026</span>
+              <span class="timeline__badge timeline__badge--muted" data-i18n="infra_badge">2 yr 10 mo</span>
             </div>
             <h3 class="timeline__role" data-i18n="infra_role">Software Developer</h3>
             <p class="timeline__company" data-i18n="infra_company">Infraservice S.r.l. · Bovisio Masciago (MB)</p>
             <ul class="timeline__list">
-              <li data-i18n="infra_1">Development and maintenance of C# / .NET enterprise applications</li>
-              <li data-i18n="infra_2">Backend business logic implementation with ASP.NET Core</li>
-              <li data-i18n="infra_3">Embedded library and system development in C++</li>
-              <li data-i18n="infra_4">Relational database design and SQL query optimization</li>
-              <li data-i18n="infra_5">Industrial automation development with FT Optix Studio (SCADA/HMI)</li>
+              <li data-i18n="infra_1">Designed and developed backend services and desktop applications in C#/.NET, applying WPF, MVVM, and dependency injection for maintainable, testable software</li>
+              <li data-i18n="infra_2">Built and maintained REST APIs and backend logic with ASP.NET Core (MVC, Razor Pages), backed by SQL Server</li>
+              <li data-i18n="infra_3">Implemented SCADA/HMI automation logic and C# scripting (FT Optix Studio), integrating third-party device SDKs and C/C++ embedded components</li>
+              <li data-i18n="infra_4">Owned projects across the full lifecycle — design, development, deployment, commissioning, and long-term maintenance</li>
             </ul>
             <div class="timeline__tags">
-              <span class="tag tag--sm">C#</span><span class="tag tag--sm">.NET 8</span>
-              <span class="tag tag--sm">ASP.NET Core</span><span class="tag tag--sm">SQL Server</span>
-              <span class="tag tag--sm">C++</span><span class="tag tag--sm">FT Optix</span><span class="tag tag--sm">Docker</span>
+              <span class="tag tag--sm">C#</span><span class="tag tag--sm">.NET</span>
+              <span class="tag tag--sm">ASP.NET Core</span><span class="tag tag--sm">WPF</span>
+              <span class="tag tag--sm">SQL Server</span><span class="tag tag--sm">C++</span>
+              <span class="tag tag--sm">FT Optix</span><span class="tag tag--sm">Docker</span>
             </div>
           </div>
         </div>
@@ -238,16 +238,14 @@
           <div class="timeline__dot"></div>
           <div class="timeline__content card">
             <div class="timeline__meta">
-              <span class="timeline__date" data-i18n="aries_date">Mar 2022 – Jun 2022</span>
+              <span class="timeline__date" data-i18n="aries_date">Jun 2022 – Sep 2022</span>
               <span class="timeline__badge timeline__badge--muted" data-i18n="aries_badge">Internship</span>
             </div>
-            <h3 class="timeline__role" data-i18n="aries_role">IT Intern</h3>
-            <p class="timeline__company" data-i18n="aries_company">Aries Tech Cathedra S.r.l. · Seregno (MB)</p>
+            <h3 class="timeline__role" data-i18n="aries_role">Software Developer Intern</h3>
+            <p class="timeline__company" data-i18n="aries_company">Aries Tech - Cathedra S.r.l. · Seregno (MB)</p>
             <ul class="timeline__list">
-              <li data-i18n="aries_1">4-month school-work alternance in software development and databases</li>
-              <li data-i18n="aries_2">Relational databases fundamentals and SQL language</li>
-              <li data-i18n="aries_3">Introduction to C# and ASP.NET Core development</li>
-              <li data-i18n="aries_4">Introductory training on blockchain technologies</li>
+              <li data-i18n="aries_1">Contributed to enterprise software development using C#, ASP.NET Core, and SQL Server</li>
+              <li data-i18n="aries_2">Worked on backend development, database design, and an internal R&amp;D initiative on blockchain technologies</li>
             </ul>
             <div class="timeline__tags">
               <span class="tag tag--sm">C#</span><span class="tag tag--sm">SQL</span><span class="tag tag--sm">ASP.NET Core</span>
@@ -285,6 +283,42 @@
         <h2 class="section__title reveal" data-i18n="certs_title">Credentials &amp; Certifications</h2>
       </div>
       <div class="certs__grid">
+
+        <div class="cert-card reveal">
+          <div class="cert-card__top">
+            <div class="cert-card__icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <span class="cert-card__verified">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span data-i18n="cert_verified">Verified</span>
+            </span>
+          </div>
+          <div class="cert-card__body">
+            <p class="cert-card__issuer">Microsoft</p>
+            <h3 class="cert-card__name" data-i18n="cert_az104_name">Microsoft Certified: Azure Administrator Associate</h3>
+            <span class="cert-card__badge">AZ-104</span>
+          </div>
+          <div class="cert-card__footer">
+            <div class="cert-card__meta">
+              <span class="cert-card__date">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Aug 2026
+              </span>
+              <span class="cert-card__id">ID: C58D1CAED35B7BD0</span>
+            </div>
+            <a href="https://learn.microsoft.com/it-it/users/marcopellegrino-4114/credentials/c58d1caed35b7bd0"
+               target="_blank" rel="noopener"
+               class="btn btn--ghost btn--sm cert-card__link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span data-i18n="cert_verify">View Credential</span>
+            </a>
+          </div>
+        </div>
 
         <div class="cert-card reveal">
           <div class="cert-card__top">
