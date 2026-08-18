@@ -301,6 +301,77 @@
       .arch-node { min-width: 90px; padding: 0.75rem; }
       .arch-node__icon { font-size: 1.2rem; }
     }
+
+    /* Screenshot showcase */
+    .ss-showcase { display: flex; flex-direction: column; gap: 2.25rem; margin-top: 1.5rem; }
+    .ss-group__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.9rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .ss-group__name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--purple);
+    }
+    .ss-group__count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--faint);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.55rem;
+      border-radius: 20px;
+    }
+    .ss-gallery--2col   { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    .ss-gallery--3col   { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; }
+    .ss-gallery--feat3  { display: grid; grid-template-columns: 3fr 2fr 2fr; gap: 0.85rem; }
+    @media (max-width: 680px) {
+      .ss-gallery--2col, .ss-gallery--3col, .ss-gallery--feat3 { grid-template-columns: 1fr; }
+    }
+    .gallery__item {
+      border-radius: var(--r);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card);
+      transition: transform var(--t), box-shadow var(--t);
+      cursor: zoom-in;
+    }
+    .gallery__item:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+    .gallery__item img   { width: 100%; object-fit: cover; aspect-ratio: 16/10; }
+    .gallery__caption {
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .gallery__caption strong { color: var(--text); font-weight: 500; }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img  { max-width: 95vw; max-height: 90vh; border-radius: var(--r); border: 1px solid var(--border); }
+    .lightbox__close {
+      position: absolute;
+      top: 1.25rem; right: 1.5rem;
+      font-size: 1.75rem; color: var(--muted); cursor: pointer;
+      background: none; border: none;
+      transition: color var(--t);
+    }
+    .lightbox__close:hover { color: var(--text); }
   </style>
 </head>
 <body>
@@ -372,9 +443,104 @@
       </div>
     </section>
 
-    <!-- 02 · Architecture Diagram -->
+    <!-- 02 · Screenshots -->
     <section class="cs-section">
-      <div class="section__label">02 · System Architecture</div>
+      <div class="section__label">02 · Product Screenshots</div>
+      <h2 class="cs-h2">Interface Walkthrough</h2>
+      <p class="cs-lead">Screenshots from a local instance seeded with fabricated demo data — the interface is identical to production, but no real member is shown here.</p>
+
+      <div class="ss-showcase">
+
+        <!-- Auth & Onboarding -->
+        <div class="ss-group">
+          <div class="ss-group__header">
+            <span class="ss-group__name">Authentication &amp; Onboarding</span>
+            <span class="ss-group__count">2 screens</span>
+          </div>
+          <div class="ss-gallery--2col">
+            <div class="gallery__item" data-img="../assets/screenshots/avis-login.jpg">
+              <img src="../assets/screenshots/avis-login.jpg" alt="Login page" loading="lazy">
+              <div class="gallery__caption"><strong>Login</strong> — tessera or codice fiscale, with live public stats (active members, total donations).</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/avis-primo-accesso.jpg">
+              <img src="../assets/screenshots/avis-primo-accesso.jpg" alt="First-login password setup wizard" loading="lazy">
+              <div class="gallery__caption"><strong>First-Login Wizard</strong> — mandatory password change with live strength checklist, enforced server-side.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboards -->
+        <div class="ss-group">
+          <div class="ss-group__header">
+            <span class="ss-group__name">Dashboards</span>
+            <span class="ss-group__count">2 screens</span>
+          </div>
+          <div class="ss-gallery--2col">
+            <div class="gallery__item" data-img="../assets/screenshots/avis-dashboard-admin.jpg">
+              <img src="../assets/screenshots/avis-dashboard-admin.jpg" alt="Admin dashboard" loading="lazy">
+              <div class="gallery__caption"><strong>Admin Dashboard</strong> — member/donation totals, upcoming-donation alerts, latest members and communications.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/avis-profilo-socio.jpg">
+              <img src="../assets/screenshots/avis-profilo-socio.jpg" alt="Member self-service dashboard" loading="lazy">
+              <div class="gallery__caption"><strong>Member Self-Service</strong> — personal donation history, merit-award status, upcoming donation reminder.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Member management -->
+        <div class="ss-group">
+          <div class="ss-group__header">
+            <span class="ss-group__name">Member Management</span>
+            <span class="ss-group__count">3 screens</span>
+          </div>
+          <div class="ss-gallery--feat3">
+            <div class="gallery__item" data-img="../assets/screenshots/avis-gestione-soci.jpg">
+              <img src="../assets/screenshots/avis-gestione-soci.jpg" alt="Member list with filters" loading="lazy">
+              <div class="gallery__caption"><strong>Member List</strong> — search, blood group/award/WhatsApp filters, upcoming-donation flags per row.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/avis-scheda-socio.jpg">
+              <img src="../assets/screenshots/avis-scheda-socio.jpg" alt="Member detail form" loading="lazy">
+              <div class="gallery__caption"><strong>Member Record</strong> — full registration-form fields, donation history, password reset.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/avis-registrazioni.jpg">
+              <img src="../assets/screenshots/avis-registrazioni.jpg" alt="Registration approval queue" loading="lazy">
+              <div class="gallery__caption"><strong>Registration Queue</strong> — approve new public sign-ups; bulk welcome-notification tools for imported members.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WhatsApp communications -->
+        <div class="ss-group">
+          <div class="ss-group__header">
+            <span class="ss-group__name">WhatsApp Communications</span>
+            <span class="ss-group__count">4 screens</span>
+          </div>
+          <div class="ss-gallery--2col">
+            <div class="gallery__item" data-img="../assets/screenshots/avis-whatsapp-templates.jpg">
+              <img src="../assets/screenshots/avis-whatsapp-templates.jpg" alt="WhatsApp template management" loading="lazy">
+              <div class="gallery__caption"><strong>Template Manager</strong> — CRUD with <code style="color:var(--cyan)">{{variable}}</code> syntax mapped to Meta's approved template format.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/avis-whatsapp-wizard-anteprima.jpg">
+              <img src="../assets/screenshots/avis-whatsapp-wizard-anteprima.jpg" alt="WhatsApp send wizard preview step" loading="lazy">
+              <div class="gallery__caption"><strong>Send Wizard — Preview</strong> — per-recipient message preview before sending, step 3 of 5.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/avis-whatsapp-wizard-conferma.jpg">
+              <img src="../assets/screenshots/avis-whatsapp-wizard-conferma.jpg" alt="WhatsApp send wizard confirmation step" loading="lazy">
+              <div class="gallery__caption"><strong>Send Wizard — Confirm</strong> — final recipient/template/channel review before dispatch.</div>
+            </div>
+            <div class="gallery__item" data-img="../assets/screenshots/avis-registro-comunicazioni.jpg">
+              <img src="../assets/screenshots/avis-registro-comunicazioni.jpg" alt="Communication log" loading="lazy">
+              <div class="gallery__caption"><strong>Communication Log</strong> — full send history with per-recipient delivery status and searchable audit trail.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 03 · Architecture Diagram -->
+    <section class="cs-section">
+      <div class="section__label">03 · System Architecture</div>
       <h2 class="cs-h2">Full-Stack Architecture &amp; Deployment</h2>
       <p class="cs-lead">The system uses a decoupled frontend/backend architecture served through a single Nginx entry point. Everything runs containerized on a cloud VPS, with SSL handled at the Nginx layer.</p>
 
@@ -460,9 +626,9 @@
       </p>
     </section>
 
-    <!-- 03 · Why These Choices -->
+    <!-- 04 · Why These Choices -->
     <section class="cs-section">
-      <div class="section__label">03 · Technology Decisions</div>
+      <div class="section__label">04 · Technology Decisions</div>
       <h2 class="cs-h2">Why Each Technology Was Chosen</h2>
       <p class="cs-lead">Every choice was made considering the client context: non-technical admin staff, mobile access needs, Italian data sovereignty (GDPR), and budget constraints of a volunteer association.</p>
 
@@ -534,9 +700,9 @@
       </div>
     </section>
 
-    <!-- 04 · Features -->
+    <!-- 05 · Features -->
     <section class="cs-section">
-      <div class="section__label">04 · Key Features</div>
+      <div class="section__label">05 · Key Features</div>
       <h2 class="cs-h2">Application Features</h2>
       <p class="cs-lead">Three role tiers with separate views and permissions — member, admin, and superadmin — plus a registration &amp; approval workflow for new members and a GDPR-compliant privacy policy page.</p>
       <div class="two-col" style="margin-bottom:1.5rem">
@@ -566,9 +732,9 @@
       </div>
     </section>
 
-    <!-- 05 · DB Schema -->
+    <!-- 06 · DB Schema -->
     <section class="cs-section">
-      <div class="section__label">05 · Database Schema</div>
+      <div class="section__label">06 · Database Schema</div>
       <h2 class="cs-h2">Entity Design</h2>
       <p class="cs-lead">Implemented in PostgreSQL via Entity Framework Core, with a direct migration path from the client's legacy CSV export — including donation history for every existing member.</p>
       <div class="entities">
@@ -613,9 +779,9 @@
       </div>
     </section>
 
-    <!-- 06 · Challenges -->
+    <!-- 07 · Challenges -->
     <section class="cs-section">
-      <div class="section__label">06 · Engineering Challenges</div>
+      <div class="section__label">07 · Engineering Challenges</div>
       <h2 class="cs-h2">Problems Solved</h2>
       <div class="challenges">
         <div class="challenge">
@@ -677,9 +843,9 @@
       </div>
     </section>
 
-    <!-- 07 · Deployment -->
+    <!-- 08 · Deployment -->
     <section class="cs-section">
-      <div class="section__label">07 · Deployment</div>
+      <div class="section__label">08 · Deployment</div>
       <h2 class="cs-h2">Production Deployment on Aruba VPS</h2>
       <p class="cs-lead">The entire stack is containerized. Deploying to a new server is a single <code>docker compose up -d --build</code> command. SSL is handled outside the containers via certbot on the host.</p>
       <div class="docker-block" style="margin-top:1.25rem">
@@ -700,9 +866,9 @@
       </div>
     </section>
 
-    <!-- 08 · Status & Results -->
+    <!-- 09 · Status & Results -->
     <section class="cs-section">
-      <div class="section__label">08 · Status &amp; Delivery</div>
+      <div class="section__label">09 · Status &amp; Delivery</div>
       <h2 class="cs-h2">Current Status &amp; Impact</h2>
       <p class="cs-lead">Live in production at <a href="https://portale.avisossolana.it" target="_blank" rel="noopener" style="color:var(--cyan)">portale.avisossolana.it</a>, replacing the legacy CSV workflow for the client's full membership. Marco owned the project end-to-end: architecture, development, security hardening, deployment, data migration, and ongoing production support.</p>
       <div class="results" style="margin-top:1.5rem">
@@ -730,7 +896,26 @@
     </div>
   </section>
 
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox__close" id="lbClose">×</button>
+    <img id="lbImg" src="" alt="">
+  </div>
+
   <script>
+    // Lightbox
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    document.querySelectorAll('.gallery__item[data-img]').forEach(item => {
+      item.addEventListener('click', () => {
+        lbImg.src = item.dataset.img;
+        lb.classList.add('open');
+      });
+    });
+    document.getElementById('lbClose').addEventListener('click', () => lb.classList.remove('open'));
+    lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
+
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
   </script>
 </body>
