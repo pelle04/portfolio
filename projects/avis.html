@@ -328,11 +328,12 @@
       </a>
       <div class="cs-label">Case Study · Freelance Cloud Project</div>
       <h1 class="cs-title">AVIS Ossolana<br>Member Portal</h1>
-      <p class="cs-desc">A modern, cloud-deployed member management portal for an Italian blood donor association — replacing a legacy CSV workflow with a full-stack SPA + REST API, containerized and deployed on Aruba VPS.</p>
+      <p class="cs-desc">A production member management portal for an Italian blood donor association — replacing a legacy CSV workflow with a full-stack SPA + REST API, containerized and deployed on a VPS. Live at <a href="https://portale.avisossolana.it" target="_blank" rel="noopener" style="color:var(--cyan)">portale.avisossolana.it</a>, serving 4,000+ real members.</p>
       <div class="cs-meta">
-        <span class="meta-chip">📅 2024–2025</span>
+        <span class="meta-chip">🟢 Live in Production</span>
+        <span class="meta-chip">👥 4,000+ Members</span>
         <span class="meta-chip">👤 Solo Developer</span>
-        <span class="meta-chip">☁️ Cloud · Aruba VPS</span>
+        <span class="meta-chip">☁️ Cloud · VPS</span>
         <span class="meta-chip">⚛️ React · TypeScript · .NET 8</span>
         <span class="meta-chip">🐳 Docker + Nginx</span>
       </div>
@@ -345,14 +346,14 @@
     <section class="cs-section">
       <div class="section__label">01 · Overview</div>
       <h2 class="cs-h2">Problem &amp; Solution</h2>
-      <p class="cs-lead">AVIS Ossolana ODV (Associazione Volontari Italiani Sangue, Domodossola) needed to replace a manual CSV-based workflow on a legacy server with a modern, accessible portal. The new system needed to work for non-technical staff managing 100+ blood donors, with mobile access and integrated communication tools.</p>
+      <p class="cs-lead">AVIS Ossolana ODV (Associazione Volontari Italiani Sangue, Domodossola) needed to replace a manual CSV-based workflow on a legacy server with a modern, accessible portal. The new system needed to work for non-technical staff managing 4,000+ blood donors, with mobile access and integrated communication tools — and it had to be trustworthy enough to hold real members' personal and health-adjacent data.</p>
       <div class="two-col">
         <div class="callout callout--red">
           <div class="callout__title">Problem</div>
           <ul class="callout__list">
             <li>Member data in CSV files on a legacy Linux server — no UI</li>
             <li>No automated alerts for donors with upcoming donation dates</li>
-            <li>Manual WhatsApp messages sent one-by-one to 100+ members</li>
+            <li>Manual WhatsApp messages sent one-by-one to thousands of members</li>
             <li>No self-service for members to check their own donation history</li>
             <li>No visibility into award (benemerenza) status per member</li>
           </ul>
@@ -365,6 +366,7 @@
             <li>Bulk WhatsApp sending with template system and guided 5-step wizard</li>
             <li>Member self-service login: personal stats, donation history, awards</li>
             <li>Full admin CRUD + CSV export + communication log history</li>
+            <li>Legacy CSV data migrated in — 4,000+ member records and donation history</li>
           </ul>
         </div>
       </div>
@@ -429,7 +431,7 @@
               <div class="arch-why">PostgreSQL: open-source, GDPR-friendly, excellent EF Core support</div>
               <div class="arch-node__icon">🗄️</div>
               <div class="arch-node__name">PostgreSQL</div>
-              <div class="arch-node__sub">EF Core · (planned)</div>
+              <div class="arch-node__sub">EF Core</div>
             </div>
           </div>
         </div>
@@ -438,13 +440,13 @@
 
         <!-- External services -->
         <div class="arch-ext-row">
-          <div class="arch-node arch-node--ghost" style="position:relative">
-            <div class="arch-why">Meta Cloud API for WhatsApp Business — planned integration</div>
+          <div class="arch-node arch-node--cyan" style="position:relative">
+            <div class="arch-why">Meta Cloud API for WhatsApp Business — live integration for templated member messaging</div>
             <div class="arch-node__icon">💬</div>
             <div class="arch-node__name">WhatsApp API</div>
             <div class="arch-node__sub">Meta Cloud API</div>
           </div>
-          <div class="arch-node arch-node--ghost" style="position:relative">
+          <div class="arch-node arch-node--cyan" style="position:relative">
             <div class="arch-why">Let's Encrypt for free SSL — automated renewal via certbot</div>
             <div class="arch-node__icon">🔒</div>
             <div class="arch-node__name">Let's Encrypt</div>
@@ -501,9 +503,9 @@
           <div class="why-card__header">
             <div class="arch-node__icon" style="font-size:1.2rem">🗄️</div>
             <span class="why-card__tech">PostgreSQL</span>
-            <span class="why-card__badge why-card__badge--alt">Planned</span>
+            <span class="why-card__badge why-card__badge--chose">Chosen</span>
           </div>
-          <p class="why-card__reason">Chosen over SQL Server to avoid licensing costs for a non-profit client. Open-source, well-supported by EF Core, and excellent for GDPR-sensitive member data. Natural migration path from CSV with EF Core migrations.</p>
+          <p class="why-card__reason">Chosen over SQL Server to avoid licensing costs for a non-profit client. Open-source, well-supported by EF Core, and excellent for GDPR-sensitive member data. The legacy CSV export was migrated in through EF Core migrations.</p>
         </div>
         <div class="why-card">
           <div class="why-card__header">
@@ -525,9 +527,9 @@
           <div class="why-card__header">
             <div class="arch-node__icon" style="font-size:1.2rem">💬</div>
             <span class="why-card__tech">Meta Cloud API</span>
-            <span class="why-card__badge why-card__badge--alt">Planned</span>
+            <span class="why-card__badge why-card__badge--chose">Chosen</span>
           </div>
-          <p class="why-card__reason">Official WhatsApp Business API for bulk messaging. Chosen over Twilio for lower per-message cost at scale and direct Meta integration. The template system in the app is already built to match the Meta template variable format.</p>
+          <p class="why-card__reason">Official WhatsApp Business API for bulk messaging. Chosen over Twilio for lower per-message cost at scale and direct Meta integration. The template system was built to match the Meta template variable format, and now includes webhook signature verification hardened during the security review.</p>
         </div>
       </div>
     </section>
@@ -536,23 +538,25 @@
     <section class="cs-section">
       <div class="section__label">04 · Key Features</div>
       <h2 class="cs-h2">Application Features</h2>
-      <p class="cs-lead">Two distinct user roles with separate views and permissions. The admin manages everything; members have read-only access to their own data.</p>
+      <p class="cs-lead">Three role tiers with separate views and permissions — member, admin, and superadmin — plus a registration &amp; approval workflow for new members and a GDPR-compliant privacy policy page.</p>
       <div class="two-col" style="margin-bottom:1.5rem">
         <div class="callout callout--red">
-          <div class="callout__title">Admin Role</div>
+          <div class="callout__title">Admin / Superadmin Role</div>
           <ul class="callout__list">
+            <li>Member registration review and admin approval workflow</li>
             <li>Member CRUD with 7-type advanced filtering (name, award, WhatsApp status, upcoming date…)</li>
             <li>Multi-select + bulk operations (CSV export, batch WhatsApp send)</li>
-            <li>WhatsApp template CRUD with <code style="color:var(--cyan)">{{variable}}</code> syntax</li>
+            <li>WhatsApp template CRUD with <code style="color:var(--cyan)">{{variable}}</code> syntax, plus a parallel email template system</li>
             <li>5-step guided sending wizard: recipients → template → preview → confirm → results</li>
-            <li>Communication log with delivery status per recipient</li>
+            <li>Communication log &amp; audit trail with delivery status per recipient</li>
             <li>Dashboard: active members, total donations, upcoming alerts, missing WhatsApp count</li>
           </ul>
         </div>
         <div class="callout callout--cyan">
           <div class="callout__title">Member (Socio) Role</div>
           <ul class="callout__list">
-            <li>Login with tessera number (donor card ID)</li>
+            <li>Self-registration, pending admin approval before activation</li>
+            <li>Login with tessera number (donor card ID), JWT-authenticated</li>
             <li>First-login mandatory password change wizard</li>
             <li>Personal dashboard: donation count, blood group, upcoming date, award status</li>
             <li>Award visualization: Bronze → Silver → Gold → Gold Superior</li>
@@ -565,8 +569,8 @@
     <!-- 05 · DB Schema -->
     <section class="cs-section">
       <div class="section__label">05 · Database Schema</div>
-      <h2 class="cs-h2">Planned Entity Design</h2>
-      <p class="cs-lead">Currently implemented with in-memory mock data for demo purposes. The database schema is designed for a direct migration from the existing CSV using EF Core migrations.</p>
+      <h2 class="cs-h2">Entity Design</h2>
+      <p class="cs-lead">Implemented in PostgreSQL via Entity Framework Core, with a direct migration path from the client's legacy CSV export — including donation history for every existing member.</p>
       <div class="entities">
         <div class="entity">
           <div class="entity__header">Soci (Members)</div>
@@ -644,15 +648,29 @@
         </div>
         <div class="challenge">
           <div class="challenge__num">CHALLENGE 03</div>
-          <h3 class="challenge__title">CSV Data Migration Planning for Legacy Member Data</h3>
+          <h3 class="challenge__title">Migrating 4,000+ Real Members Off a Legacy CSV</h3>
           <div class="challenge__grid">
             <div class="challenge__side">
               <div class="challenge__side-label challenge__side-label--p">Problem</div>
-              <p>The existing member database is a CSV file on a legacy Linux server with inconsistent formatting. Column names are in Italian, dates are in Italian format (DD/MM/YYYY), and some fields are missing for older records. Direct import would produce dirty data.</p>
+              <p>The existing member database was a CSV export from a legacy Linux server with inconsistent formatting. Column names in Italian, dates in Italian format (DD/MM/YYYY), and missing fields on older records. A direct import would have produced dirty data for thousands of real members and their donation history.</p>
             </div>
             <div class="challenge__side">
               <div class="challenge__side-label challenge__side-label--s">Solution</div>
-              <p>A Python migration script (<code>genera_offerta.py</code>) was designed for the data transformation: Italian date parsing, column mapping to the PostgreSQL schema, default value injection for missing fields, and duplicate tessera detection before the EF Core seed migration runs.</p>
+              <p>A migration script handled the transformation: Italian date parsing, column mapping to the PostgreSQL schema, default value injection for missing fields, and duplicate tessera (card number) detection before the EF Core seed migration ran. All 4,000+ member records and their donation history were imported cleanly ahead of go-live.</p>
+            </div>
+          </div>
+        </div>
+        <div class="challenge">
+          <div class="challenge__num">CHALLENGE 04</div>
+          <h3 class="challenge__title">Security Review Before Going Live with Real Member Data</h3>
+          <div class="challenge__grid">
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--p">Problem</div>
+              <p>Once the schema held real names, dates of birth, and donation/health-adjacent records for 4,000+ people, the MVP-era shortcuts couldn't ship: an XSS-exposed input, insecure fallback values for JWT/app secrets, database ports reachable outside the Docker network, and no signature verification on the incoming WhatsApp webhook.</p>
+            </div>
+            <div class="challenge__side">
+              <div class="challenge__side-label challenge__side-label--s">Solution</div>
+              <p>A dedicated security review and hardening pass ran before production launch: sanitized/escaped the vulnerable input, removed insecure secret fallbacks in favor of required environment configuration, closed the exposed database ports at the Docker Compose network level, and added Meta webhook signature verification. Deployed only after the pass was clean.</p>
             </div>
           </div>
         </div>
@@ -678,7 +696,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;<span class="c-dim"># Nginx: SPA routing + /api proxy + gzip + 1yr cache</span><br><br>
         <span class="c-dim"># After deploy on VPS:</span><br>
         <span class="c-green">$</span> certbot --nginx -d <span class="c-yellow">portale.avisossolana.it</span><br>
-        <span class="c-dim"># SSL auto-renewal via systemd timer</span>
+        <span class="c-dim"># SSL auto-renewal via systemd timer — live in production</span>
       </div>
     </section>
 
@@ -686,14 +704,14 @@
     <section class="cs-section">
       <div class="section__label">08 · Status &amp; Delivery</div>
       <h2 class="cs-h2">Current Status &amp; Impact</h2>
-      <p class="cs-lead">MVP delivered and presented to the client. Frontend UI fully implemented, Docker deployment ready. Database integration and WhatsApp API connection are the next production steps.</p>
+      <p class="cs-lead">Live in production at <a href="https://portale.avisossolana.it" target="_blank" rel="noopener" style="color:var(--cyan)">portale.avisossolana.it</a>, replacing the legacy CSV workflow for the client's full membership. Marco owned the project end-to-end: architecture, development, security hardening, deployment, data migration, and ongoing production support.</p>
       <div class="results" style="margin-top:1.5rem">
-        <div class="result"><div class="result__icon">📱</div><div class="result__val">9</div><div class="result__label">App routes</div></div>
-        <div class="result"><div class="result__icon">🎭</div><div class="result__val">2</div><div class="result__label">User roles</div></div>
+        <div class="result"><div class="result__icon">👥</div><div class="result__val">4,000+</div><div class="result__label">Real members</div></div>
+        <div class="result"><div class="result__icon">🎭</div><div class="result__val">3</div><div class="result__label">User roles</div></div>
         <div class="result"><div class="result__icon">📋</div><div class="result__val">5-step</div><div class="result__label">WhatsApp wizard</div></div>
         <div class="result"><div class="result__icon">🐳</div><div class="result__val">2</div><div class="result__label">Docker services</div></div>
-        <div class="result"><div class="result__icon">☁️</div><div class="result__val">Aruba</div><div class="result__label">VPS (Italy)</div></div>
-        <div class="result"><div class="result__icon">🔒</div><div class="result__val">GDPR</div><div class="result__label">Data residency</div></div>
+        <div class="result"><div class="result__icon">☁️</div><div class="result__val">Live</div><div class="result__label">Production VPS</div></div>
+        <div class="result"><div class="result__icon">🔒</div><div class="result__val">GDPR</div><div class="result__label">Compliant</div></div>
       </div>
     </section>
 
