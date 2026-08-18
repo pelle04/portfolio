@@ -278,16 +278,6 @@
     .why-card__badge--chose { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
     .why-card__badge--alt   { background: rgba(255,255,255,0.05); color: var(--faint); border: 1px solid var(--border); }
 
-    /* DB entities */
-    .entities { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 0.9rem; margin-top: 1.5rem; }
-    .entity { background: var(--card); border: 1px solid var(--border); border-radius: var(--rsm); overflow: hidden; transition: border-color var(--t), transform var(--t); }
-    .entity:hover { border-color: var(--border-hover); transform: translateY(-2px); }
-    .entity__header { padding: 0.55rem 0.9rem; background: rgba(200,16,46,0.08); border-bottom: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 500; color: #f87171; }
-    .entity__fields { padding: 0.55rem 0.9rem; display: flex; flex-direction: column; gap: 0.2rem; }
-    .entity__field  { font-size: 0.73rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
-    .entity__field--pk { color: var(--cyan); }
-    .entity__field--fk { color: #fbbf24; }
-
     /* Docker block */
     .docker-block { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 1.25rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.85; color: var(--muted); overflow-x: auto; }
     .c-green  { color: #4ade80; }
@@ -545,7 +535,7 @@
       <p class="cs-lead">The system uses a decoupled frontend/backend architecture served through a single Nginx entry point. Everything runs containerized on a cloud VPS, with SSL handled at the Nginx layer.</p>
 
       <div class="arch-diagram" style="margin-top:1.5rem;">
-        <div class="arch-cloud-badge">☁️ Aruba VPS — Ubuntu 22.04 LTS</div>
+        <div class="arch-cloud-badge">☁️ Cloud VPS — Linux</div>
 
         <!-- Users -->
         <div class="arch-row" style="margin-bottom:0">
@@ -684,10 +674,10 @@
         <div class="why-card">
           <div class="why-card__header">
             <div class="arch-node__icon" style="font-size:1.2rem">🇮🇹</div>
-            <span class="why-card__tech">Aruba VPS</span>
+            <span class="why-card__tech">Italian Cloud VPS</span>
             <span class="why-card__badge why-card__badge--chose">Chosen</span>
           </div>
-          <p class="why-card__reason">Italian hosting provider = data residency within Italy, simplifying GDPR compliance for member personal data. Cost-effective (€5–10/month) for a volunteer association budget. Italian-language support for the client.</p>
+          <p class="why-card__reason">Italian hosting provider = data residency within Italy, simplifying GDPR compliance for member personal data. Cost-effective for a volunteer association budget. Italian-language support for the client.</p>
         </div>
         <div class="why-card">
           <div class="why-card__header">
@@ -732,56 +722,9 @@
       </div>
     </section>
 
-    <!-- 06 · DB Schema -->
+    <!-- 06 · Challenges -->
     <section class="cs-section">
-      <div class="section__label">06 · Database Schema</div>
-      <h2 class="cs-h2">Entity Design</h2>
-      <p class="cs-lead">Implemented in PostgreSQL via Entity Framework Core, with a direct migration path from the client's legacy CSV export — including donation history for every existing member.</p>
-      <div class="entities">
-        <div class="entity">
-          <div class="entity__header">Soci (Members)</div>
-          <div class="entity__fields">
-            <div class="entity__field entity__field--pk">id (UUID, PK)</div>
-            <div class="entity__field entity__field--pk">tessera (unique)</div>
-            <div class="entity__field">nome, cognome</div>
-            <div class="entity__field">data_nascita, cf</div>
-            <div class="entity__field">email, telefono, whatsapp</div>
-            <div class="entity__field">gruppo_sanguigno</div>
-            <div class="entity__field">donazioni_sangue, plasma</div>
-            <div class="entity__field">ultima_donazione, prossima</div>
-            <div class="entity__field">benemerenza (enum)</div>
-            <div class="entity__field">attivo (bool), role</div>
-            <div class="entity__field">password_hash</div>
-          </div>
-        </div>
-        <div class="entity">
-          <div class="entity__header">WA Templates</div>
-          <div class="entity__fields">
-            <div class="entity__field entity__field--pk">id (UUID, PK)</div>
-            <div class="entity__field">nome</div>
-            <div class="entity__field">testo ({{vars}})</div>
-            <div class="entity__field">created_at, updated_at</div>
-          </div>
-        </div>
-        <div class="entity">
-          <div class="entity__header">Comm. Log</div>
-          <div class="entity__fields">
-            <div class="entity__field entity__field--pk">id (UUID, PK)</div>
-            <div class="entity__field entity__field--fk">destinatario_id (FK)</div>
-            <div class="entity__field entity__field--fk">template_id (FK)</div>
-            <div class="entity__field">whatsapp_number</div>
-            <div class="entity__field">testo_inviato</div>
-            <div class="entity__field">data_ora</div>
-            <div class="entity__field">esito (enum)</div>
-            <div class="entity__field entity__field--fk">operatore_id (FK)</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 07 · Challenges -->
-    <section class="cs-section">
-      <div class="section__label">07 · Engineering Challenges</div>
+      <div class="section__label">06 · Engineering Challenges</div>
       <h2 class="cs-h2">Problems Solved</h2>
       <div class="challenges">
         <div class="challenge">
@@ -843,10 +786,10 @@
       </div>
     </section>
 
-    <!-- 08 · Deployment -->
+    <!-- 07 · Deployment -->
     <section class="cs-section">
-      <div class="section__label">08 · Deployment</div>
-      <h2 class="cs-h2">Production Deployment on Aruba VPS</h2>
+      <div class="section__label">07 · Deployment</div>
+      <h2 class="cs-h2">Production Deployment on a Cloud VPS</h2>
       <p class="cs-lead">The entire stack is containerized. Deploying to a new server is a single <code>docker compose up -d --build</code> command. SSL is handled outside the containers via certbot on the host.</p>
       <div class="docker-block" style="margin-top:1.25rem">
         <span class="c-green">services:</span><br>
@@ -866,9 +809,9 @@
       </div>
     </section>
 
-    <!-- 09 · Status & Results -->
+    <!-- 08 · Status & Results -->
     <section class="cs-section">
-      <div class="section__label">09 · Status &amp; Delivery</div>
+      <div class="section__label">08 · Status &amp; Delivery</div>
       <h2 class="cs-h2">Current Status &amp; Impact</h2>
       <p class="cs-lead">Live in production at <a href="https://portale.avisossolana.it" target="_blank" rel="noopener" style="color:var(--cyan)">portale.avisossolana.it</a>, replacing the legacy CSV workflow for the client's full membership. Marco owned the project end-to-end: architecture, development, security hardening, deployment, data migration, and ongoing production support.</p>
       <div class="results" style="margin-top:1.5rem">
